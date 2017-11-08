@@ -48,13 +48,17 @@ public class MainActivity extends AppCompatActivity {
 
                 ListaCompra item = (ListaCompra) listListaCompra.getAdapter().getItem(position);
 
-                moverAddListActivity();
+                moverListShoppingSavedActivity(item.getId());
             }
         });
     }
 
-    private void moverAddListActivity () {
-        //AQUI HAY QUE PASAR A LA SIGUIENTE PANTALLA, correspodiente al item (listaCompra)
-        //que se ha pulsado
+    private void moverListShoppingSavedActivity(long id) {
+        //AQUI HAY QUE PASAR A LA ACTIVITY de la lista seleccionada
+        //Activity todavia sin crear
+    }
+
+    public void moverAddListActivity (View view) {
+        //AQUI HAY QUE PASAR A LA pantalla para crear una nueva lista
     }
 }

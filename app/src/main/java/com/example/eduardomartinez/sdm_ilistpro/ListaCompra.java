@@ -6,6 +6,7 @@ package com.example.eduardomartinez.sdm_ilistpro;
 
 public class ListaCompra {
 
+    private long id;
     private String nombre;
     private double precio;
     private int imagen;
@@ -37,5 +38,13 @@ public class ListaCompra {
 
     public void setImagen(int imagen) {
         this.imagen = imagen;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

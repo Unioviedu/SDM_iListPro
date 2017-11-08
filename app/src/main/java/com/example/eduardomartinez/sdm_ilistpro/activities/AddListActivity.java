@@ -64,14 +64,15 @@ public class AddListActivity extends AppCompatActivity {
 
     public void saveList (View v) {
         //Logica para guardar la lista en la BDD
-        moverSavedShoppingListActivity();
+        moverListShoppingSavedActivity();
     }
 
     private void moverSettingsActivity () {
 
     }
 
-    private void moverSavedShoppingListActivity() {
-
+    private void moverListShoppingSavedActivity() {
+        //AQUI HAY QUE PASAR A LA ACTIVITY de la lista que acabamos de guardar
+        //Activity todavia sin crear
     }
 }
