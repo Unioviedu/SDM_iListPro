@@ -48,12 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
                 ListaCompra item = (ListaCompra) listListaCompra.getAdapter().getItem(position);
 
-                moverListShoppingSavedActivity(item.getId());
+                moverListShoppingSavedActivity(item);
             }
         });
     }
 
-    private void moverListShoppingSavedActivity(long id) {
+    private void moverListShoppingSavedActivity(ListaCompra lista) {
         //AQUI HAY QUE PASAR A LA ACTIVITY de la lista seleccionada
         //Activity todavia sin crear
     }
