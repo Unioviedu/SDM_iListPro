@@ -1,18 +1,19 @@
 package com.example.eduardomartinez.sdm_ilistpro;
 
 /**
- * Created by eduardomartinez on 6/11/17.
+ * Created by eduardomartinez on 7/11/17.
  */
 
-public class ListaCompraPrueba {
-
+public class Producto {
     private String nombre;
     private double precio;
+    private String supermercado;
     private int imagen;
 
-    public ListaCompraPrueba(String nombre, double precio) {
+    public Producto(String nombre, double precio, String supermercado) {
         this.nombre = nombre;
         this.precio = precio;
+        this.supermercado = supermercado;
     }
 
     public String getNombre() {
@@ -37,5 +38,13 @@ public class ListaCompraPrueba {
 
     public void setImagen(int imagen) {
         this.imagen = imagen;
+    }
+
+    public String getSupermercado() {
+        return supermercado;
+    }
+
+    public void setSupermercado(String supermercado) {
+        this.supermercado = supermercado;
     }
 }

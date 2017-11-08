@@ -1,4 +1,4 @@
-package com.example.eduardomartinez.sdm_ilistpro;
+package com.example.eduardomartinez.sdm_ilistpro.activities.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.example.eduardomartinez.sdm_ilistpro.ListaCompra;
+import com.example.eduardomartinez.sdm_ilistpro.R;
 
 import java.util.List;
 
@@ -15,9 +18,9 @@ import java.util.List;
 
 public class ListaCompraItemAdapter extends BaseAdapter {
     private Context context;
-    private List<ListaCompraPrueba> items;
+    private List<ListaCompra> items;
 
-    public ListaCompraItemAdapter(Context context, List<ListaCompraPrueba> items) {
+    public ListaCompraItemAdapter(Context context, List<ListaCompra> items) {
         this.context = context;
         this.items = items;
     }
@@ -51,7 +54,7 @@ public class ListaCompraItemAdapter extends BaseAdapter {
         TextView nombreLista = (TextView) rowView.findViewById(R.id.textViewNombreListaItem);
         TextView precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioListaItem);
 
-        ListaCompraPrueba item = this.items.get(i);
+        ListaCompra item = this.items.get(i);
         nombreLista.setText(item.getNombre());
         precioLista.setText(String.valueOf(item.getPrecio()));
 

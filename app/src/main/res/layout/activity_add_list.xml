@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.eduardomartinez.sdm_ilistpro.AddListActivity">
+    tools:context="com.example.eduardomartinez.sdm_ilistpro.activities.AddListActivity">
 
     <LinearLayout
         android:layout_width="317dp"
@@ -32,13 +32,12 @@
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/textPrecio"
+            android:id="@+id/textPrecioLista"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -85,13 +84,12 @@
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/textNombreLista"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -111,13 +109,14 @@
         app:layout_constraintHorizontal_bias="0.514" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/guardarListaButton"
         android:layout_width="107dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
+        android:onClick="saveList"
         android:text="Guardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.971"
@@ -125,6 +124,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listViewProductos"
         app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteY="463dp"
-        tools:layout_editor_absoluteX="261dp" />
+        tools:layout_editor_absoluteX="261dp"
+        tools:layout_editor_absoluteY="463dp" />
 </android.support.constraint.ConstraintLayout>
