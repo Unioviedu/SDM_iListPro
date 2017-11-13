@@ -25,7 +25,7 @@ public class NewListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_list);
+        setContentView(R.layout.activity_new_list);
 
         buscarComponentes();
         rellenarLista();
@@ -62,6 +62,12 @@ public class NewListActivity extends AppCompatActivity {
         this.listViewProductos.setAdapter(new ProductoAddedItemAdapter(this, productosAñadidos));
     }
 
+    public void addProduct (View view) {
+        //Pasamos a la activity donde seleccionar los productos para la lista
+        //AddProductTabbedActivity
+        //HAY QUE PASAR este objeto (this) a esta activity
+    }
+
     public void saveList (View v) {
         //Logica para guardar la lista en la BDD
         moverListShoppingSavedActivity();
@@ -73,6 +79,6 @@ public class NewListActivity extends AppCompatActivity {
 
     private void moverListShoppingSavedActivity() {
         //AQUI HAY QUE PASAR A LA ACTIVITY de la lista que acabamos de guardar
-        //Activity todavia sin crear
+        //SavedListActivity
     }
 }

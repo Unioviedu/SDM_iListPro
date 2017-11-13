@@ -1,5 +1,6 @@
 package com.example.eduardomartinez.sdm_ilistpro.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -54,8 +55,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void moverListShoppingSavedActivity(ListaCompra lista) {
-        //AQUI HAY QUE PASAR A LA ACTIVITY de la lista seleccionada
+        //AQUI HAY QUE PASAR el objeto lista A LA ACTIVITY de la lista seleccionada
         //SavedListActivity
+        Intent intent = new Intent(this, SavedListActivity.class);
+        intent.putExtra(SerializablesTag.LISTA_COMPRA, lista);
+        startActivity(intent);
     }
 
     public void moverAddListActivity (View view) {

@@ -149,6 +149,7 @@ public class AddProductTabbedActivity extends AppCompatActivity {
             ListProductsFragment productsFragment = new ListProductsFragment();
 
             rellenarListProductsForAdded(tipo);
+            setupAddProductButton();
 
             return productsFragment;
         }
@@ -174,6 +175,16 @@ public class AddProductTabbedActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    private void setupAddProductButton() {
+        findViewById(R.id.listViewProductForAdd).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //LOGICA PARA AÑADIR EL PRODUCTO
+
+            }
+        });
     }
 
     private void rellenarListProductsForAdded(int tipo) {

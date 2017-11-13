@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.eduardomartinez.sdm_ilistpro.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoAddedItemAdapter;
@@ -16,6 +17,8 @@ import java.util.List;
 
 public class SavedListActivity extends AppCompatActivity {
     ListView listViewProductos;
+
+    ListaCompra listaCompraActual;
 
     List<Producto> productosAñadidos = new LinkedList<>();
 
@@ -39,7 +42,7 @@ public class SavedListActivity extends AppCompatActivity {
 
         if (id == R.id.action_home) {
             //HAY QUE VOLVER A LA PANTALLA DE INICIO
-
+            //MainActivity
         } else if (id == R.id.action_edit) {
 
         }
