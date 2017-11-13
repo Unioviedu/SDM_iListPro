@@ -15,7 +15,7 @@ import com.example.eduardomartinez.sdm_ilistpro.R;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AddListActivity extends AppCompatActivity {
+public class NewListActivity extends AppCompatActivity {
     EditText nombreLista;
     EditText precioLista;
     ListView listViewProductos;
@@ -32,7 +32,7 @@ public class AddListActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu (final Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_list, menu);
+        getMenuInflater().inflate(R.menu.menu_new_list, menu);
 
         return true;
     }

@@ -55,10 +55,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void moverListShoppingSavedActivity(ListaCompra lista) {
         //AQUI HAY QUE PASAR A LA ACTIVITY de la lista seleccionada
-        //Activity todavia sin crear
+        //SavedListActivity
     }
 
     public void moverAddListActivity (View view) {
         //AQUI HAY QUE PASAR A LA pantalla para crear una nueva lista
+        //NewListActivity
     }
 }
