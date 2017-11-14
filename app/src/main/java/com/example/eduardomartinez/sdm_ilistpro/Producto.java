@@ -10,10 +10,13 @@ public class Producto {
     private String supermercado;
     private int imagen;
 
-    public Producto(String nombre, double precio, String supermercado) {
+    private long id;
+
+    public Producto(String nombre, double precio, String supermercado, long id) {
         this.nombre = nombre;
         this.precio = precio;
         this.supermercado = supermercado;
+        this.id = id;
     }
 
     public String getNombre() {
@@ -47,4 +50,6 @@ public class Producto {
     public void setSupermercado(String supermercado) {
         this.supermercado = supermercado;
     }
+
+    public long getId() {return id; }
 }

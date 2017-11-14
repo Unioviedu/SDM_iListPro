@@ -44,9 +44,9 @@ public class ListProductsFragment extends Fragment {
         List<Producto> productos = new LinkedList<>();
 
         if (tipo == TiposProducto.CARNE) {
-            productos.add(new Producto("Carne", 10, "Mercadona"));
+            productos.add(new Producto("Carne", 10, "Mercadona", 1));
         } else {
-            productos.add(new Producto("Otro", 10, "Mercadona"));
+            productos.add(new Producto("Otro", 10, "Mercadona", 2));
         }
 
         this.listViewProductsForAdded.setAdapter(new ProductoForAddItemAdapter(getActivity(), productos));

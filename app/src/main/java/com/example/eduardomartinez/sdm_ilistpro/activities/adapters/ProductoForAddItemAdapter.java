@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
@@ -46,7 +47,7 @@ public class ProductoForAddItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View convertView, ViewGroup parent) {
+    public View getView(int i, final View convertView, ViewGroup parent) {
         View rowView = convertView;
 
         if (convertView == null) {
@@ -59,12 +60,14 @@ public class ProductoForAddItemAdapter extends BaseAdapter {
         TextView nombreLista = (TextView) rowView.findViewById(R.id.textViewNombreProductoForAddItem);
         TextView precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioProductoForAddItem);
         TextView nombreSupermercado = (TextView) rowView.findViewById(R.id.textViewSupermercadoProductoForAddItem);
-        //Button addButton = rowView.findViewById(R.id.buttonAddProduct);
+        ImageButton addButton = (ImageButton) rowView.findViewById(R.id.buttonAddProduct);
 
         Producto item = this.items.get(i);
         nombreLista.setText(item.getNombre());
         precioLista.setText(String.valueOf(item.getPrecio()));
         nombreSupermercado.setText(item.getSupermercado());
+
+        addButton.setTag(item.getId());
 
         return rowView;
     }

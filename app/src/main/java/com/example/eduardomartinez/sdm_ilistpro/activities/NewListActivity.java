@@ -24,7 +24,6 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
     ListView listViewProductos;
 
     ListaCompra newListaCompra = new ListaCompra();
-    List<Producto> productosAñadidos = new LinkedList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +57,7 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
     }
 
     private void rellenarLista() {
-        //Esto lo tendriamos que sacar de la base de datos
-        productosAñadidos.add(new Producto("ProductoPrueba1", 10, "Mercadona"));
-        productosAñadidos.add(new Producto("ProductoPrueba2", 10.5, "Alimerka"));
-        //
-
-        this.listViewProductos.setAdapter(new ProductoAddedItemAdapter(this, productosAñadidos));
+        this.listViewProductos.setAdapter(new ProductoAddedItemAdapter(this, newListaCompra.getProductos()));
     }
 
     public void addProduct (View view) {

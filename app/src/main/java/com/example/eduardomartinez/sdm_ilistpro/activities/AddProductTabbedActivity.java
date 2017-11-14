@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
@@ -99,6 +100,10 @@ public class AddProductTabbedActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addProductItem (View view) {
+        Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
     }
 
     /**
