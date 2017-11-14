@@ -65,5 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public void moverAddListActivity (View view) {
         //AQUI HAY QUE PASAR A LA pantalla para crear una nueva lista
         //NewListActivity
+        Intent intent = new Intent(this, NewListActivity.class);
+        startActivity(intent);
     }
 }

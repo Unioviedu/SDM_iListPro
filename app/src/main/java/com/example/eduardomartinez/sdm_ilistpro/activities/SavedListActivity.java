@@ -26,6 +26,8 @@ public class SavedListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_list);
+        listaCompraActual = (ListaCompra) getIntent().getExtras().getSerializable(SerializablesTag.LISTA_COMPRA);
+        setTitle(listaCompraActual.getNombre());
 
         buscarComponentes();
         rellenarLista();

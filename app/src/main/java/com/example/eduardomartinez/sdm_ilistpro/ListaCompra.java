@@ -13,6 +13,10 @@ public class ListaCompra implements Serializable{
     private double precio;
     private int imagen;
 
+    public ListaCompra() {
+
+    }
+
     public ListaCompra(String nombre, double precio) {
         this.nombre = nombre;
         this.precio = precio;

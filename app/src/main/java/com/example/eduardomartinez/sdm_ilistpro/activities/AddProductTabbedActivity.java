@@ -1,5 +1,6 @@
 package com.example.eduardomartinez.sdm_ilistpro.activities;
 
+import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -100,41 +102,6 @@ public class AddProductTabbedActivity extends AppCompatActivity {
     }
 
     /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_add_product_tabbed, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
-
-    /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
@@ -147,9 +114,9 @@ public class AddProductTabbedActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int tipo) {
             ListProductsFragment productsFragment = new ListProductsFragment();
-
-            rellenarListProductsForAdded(tipo);
-            setupAddProductButton();
+            Bundle bundle = new Bundle();
+            bundle.putInt(SerializablesTag.TIPO_LISTA_PRODUCTOS, tipo);
+            productsFragment.setArguments(bundle);
 
             return productsFragment;
         }
@@ -175,29 +142,5 @@ public class AddProductTabbedActivity extends AppCompatActivity {
             }
             return null;
         }
-    }
-
-    private void setupAddProductButton() {
-        findViewById(R.id.listViewProductForAdd).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //LOGICA PARA AÑADIR EL PRODUCTO
-
-            }
-        });
-    }
-
-    private void rellenarListProductsForAdded(int tipo) {
-        SearchView searchProductsForAdd = (SearchView) findViewById(R.id.searchProductForAdd);
-        ListView listViewProductsForAdd = (ListView) findViewById(R.id.listViewProductForAdd);
-        String textFiltro = searchProductsForAdd.getQuery().toString(); //No estoy seguro
-
-        List<Producto> productsForAdd = new LinkedList<>();
-        //Esto tenemos que sacarlo de la BDD, teniendo en cuenta el textFiltro y el tipo
-        productsForAdd.add(new Producto("PruebaTabbed", 10, "Mercadona"));
-        //
-
-        listViewProductsForAdd.setAdapter(new ProductoForAddItemAdapter(this, productsForAdd));
-
     }
 }
