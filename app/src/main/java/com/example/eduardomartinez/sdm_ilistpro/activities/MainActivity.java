@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ListaCompraItemAdapter;
 import com.example.eduardomartinez.sdm_ilistpro.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.R;
+import com.example.eduardomartinez.sdm_ilistpro.database.Datasource;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,12 +18,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     ListView listListaCompra;
     List<ListaCompra> listaListaCompra = new LinkedList<>();
+    Datasource datasource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        datasource = Datasource.getInstance(getApplicationContext());
         buscarComponentes();
         rellenarLista();
         añadirFunciones();
