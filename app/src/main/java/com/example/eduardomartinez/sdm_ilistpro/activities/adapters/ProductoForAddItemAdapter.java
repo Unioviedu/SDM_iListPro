@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
+import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 
 import org.w3c.dom.Text;
 
@@ -64,7 +65,7 @@ public class ProductoForAddItemAdapter extends BaseAdapter {
 
         Producto item = this.items.get(i);
         nombreLista.setText(item.getNombre());
-        precioLista.setText(String.valueOf(item.getPrecio()));
+        precioLista.setText(Utilidades.precio(item.getPrecio()));
         nombreSupermercado.setText(item.getSupermercado());
 
         addButton.setTag(item.getId());

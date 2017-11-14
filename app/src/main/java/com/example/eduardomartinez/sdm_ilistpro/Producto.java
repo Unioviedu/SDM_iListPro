@@ -1,10 +1,12 @@
 package com.example.eduardomartinez.sdm_ilistpro;
 
+import java.io.Serializable;
+
 /**
  * Created by eduardomartinez on 7/11/17.
  */
 
-public class Producto {
+public class Producto implements Serializable{
     private String nombre;
     private double precio;
     private String supermercado;

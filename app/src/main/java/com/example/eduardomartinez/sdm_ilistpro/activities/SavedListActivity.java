@@ -1,5 +1,6 @@
 package com.example.eduardomartinez.sdm_ilistpro.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,7 +28,7 @@ public class SavedListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_list);
-        listaCompraActual = (ListaCompra) getIntent().getExtras().getSerializable(SerializablesTag.LISTA_COMPRA);
+        listaCompraActual = (ListaCompra) getIntent().getExtras().getSerializable(SerializablesTag.NEW_LIST_COMPRA);
         setTitle(listaCompraActual.getNombre());
 
         buscarComponentes();
@@ -47,10 +48,16 @@ public class SavedListActivity extends AppCompatActivity {
             //HAY QUE VOLVER A LA PANTALLA DE INICIO
             //MainActivity
         } else if (id == R.id.action_edit) {
-
+            moverEditListActivity();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void moverEditListActivity() {
+        Intent intent = new Intent(this, NewListActivity.class);
+        intent.putExtra(SerializablesTag.EDIT_LIST_COMPRA, listaCompraActual);
+        startActivity(intent);
     }
 
     private void buscarComponentes() {
@@ -58,14 +65,7 @@ public class SavedListActivity extends AppCompatActivity {
     }
 
     private void rellenarLista() {
-        //Esto lo tendriamos que sacar de la base de datos
-        productosAñadidos.add(new Producto("ProductoPrueba1", 10,
-                "Mercadona", TiposProducto.CARNE, 1));
-        productosAñadidos.add(new Producto("ProductoPrueba2", 10.5,
-                "Alimerka", TiposProducto.PESCADO, 2));
-        //
-
-        this.listViewProductos.setAdapter(new ProductoAddedItemAdapter(this, productosAñadidos));
+        this.listViewProductos.setAdapter(new ProductoAddedItemAdapter(this, listaCompraActual.getProductos()));
     }
 
     public void escanear(View view) {

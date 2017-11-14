@@ -42,6 +42,13 @@ public class GestorNewListaCompra {
         return p;
     }
 
+    public Producto deleteProducto(long id) {
+        Producto p = todosProductos.get(id);
+        productosAñadidos.remove(p);
+
+        return p;
+    }
+
     public void clear() {
         productosAñadidos = new LinkedList<>();
     }
@@ -52,5 +59,9 @@ public class GestorNewListaCompra {
             total += p.getPrecio();
 
         return total;
+    }
+
+    public void editList(ListaCompra listaCompraEditar) {
+        productosAñadidos = listaCompraEditar.getProductos();
     }
 }

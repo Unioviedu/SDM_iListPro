@@ -46,7 +46,7 @@ public class ListProductsFragment extends Fragment {
         List<Producto> productos = new LinkedList<>();
 
         for (Map.Entry<Long, Producto> entry: GestorNewListaCompra.getInstance().getTodosProductos().entrySet()) {
-            if (tipo == entry.getValue().getTipo())
+            if (tipo == entry.getValue().getTipo() || tipo == TiposProducto.TODO)
                 productos.add(entry.getValue());
         }
 
