@@ -1,6 +1,8 @@
 package com.example.eduardomartinez.sdm_ilistpro;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by eduardomartinez on 6/11/17.
@@ -12,6 +14,8 @@ public class ListaCompra implements Serializable{
     private String nombre;
     private double precio;
     private int imagen;
+
+    private List<Producto> productos = new LinkedList<>();
 
     public ListaCompra() {
 
@@ -52,5 +56,11 @@ public class ListaCompra implements Serializable{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public List<Producto> getProductos () {return productos; }
+
+    public void addProducto(Producto producto) {
+        productos.add(producto);
     }
 }
