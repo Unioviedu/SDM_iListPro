@@ -1,6 +1,5 @@
-*.iml
-.gradle
-/local.properties
+*.lock
+*.bin
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
