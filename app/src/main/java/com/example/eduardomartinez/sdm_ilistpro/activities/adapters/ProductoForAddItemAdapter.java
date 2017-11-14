@@ -53,34 +53,19 @@ public class ProductoForAddItemAdapter extends BaseAdapter {
             // Create a new view into the list.
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.product_added_item, parent, false);
+            rowView = inflater.inflate(R.layout.product_for_add_item, parent, false);
         }
 
-        ProductHolder p = new ProductHolder();
-        p.producto = items.get(i);
-        p.nombreLista = (TextView) rowView.findViewById(R.id.textViewNombreProductoForAddItem);
-        p.precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioProductoForAddItem);
-        p.nombreSupermercado = (TextView) rowView.findViewById(R.id.textViewSupermercadoProductoForAddItem);
-        p.addButton = rowView.findViewById(R.id.buttonAddProduct);
+        TextView nombreLista = (TextView) rowView.findViewById(R.id.textViewNombreProductoForAddItem);
+        TextView precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioProductoForAddItem);
+        TextView nombreSupermercado = (TextView) rowView.findViewById(R.id.textViewSupermercadoProductoForAddItem);
+        //Button addButton = rowView.findViewById(R.id.buttonAddProduct);
 
-        setupItem(p);
+        Producto item = this.items.get(i);
+        nombreLista.setText(item.getNombre());
+        precioLista.setText(String.valueOf(item.getPrecio()));
+        nombreSupermercado.setText(item.getSupermercado());
 
         return rowView;
-    }
-
-    private void setupItem(ProductHolder p) {
-        Producto item = p.producto;
-
-        p.nombreLista.setText(item.getNombre());
-        p.precioLista.setText(String.valueOf(item.getPrecio()));
-        p.nombreLista.setText(item.getSupermercado());
-    }
-
-    public static class ProductHolder {
-        Producto producto;
-        TextView nombreLista;
-        TextView precioLista;
-        TextView nombreSupermercado;
-        ImageButton addButton;
     }
 }

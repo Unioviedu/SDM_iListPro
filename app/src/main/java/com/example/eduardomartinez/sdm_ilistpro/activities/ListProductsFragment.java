@@ -9,16 +9,57 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
+import com.example.eduardomartinez.sdm_ilistpro.TiposProducto;
+import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ListaCompraItemAdapter;
+import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoAddedItemAdapter;
+import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoForAddItemAdapter;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class ListProductsFragment extends Fragment {
-    ListView listProductsForAdded;
-    SearchView searchProductsForAdded;
+    private ListView listViewProductsForAdded;
+    private SearchView searchProductsForAdded;
+    private View rootView;
+    private int tipo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_products, container, false);
+        tipo = getArguments().getInt(SerializablesTag.TIPO_LISTA_PRODUCTOS);
+        rootView = inflater.inflate(R.layout.fragment_list_products, container, false);
+        listViewProductsForAdded = (ListView) rootView.findViewById(R.id.listViewProductForAdd);
+
+        rellenarListaProductos();
+        //setupAddProductButton();
+
+        return rootView;
+    }
+
+    private void rellenarListaProductos() {
+        //Esto desde la base de datos
+        List<Producto> productos = new LinkedList<>();
+
+        if (tipo == TiposProducto.CARNE) {
+            productos.add(new Producto("Carne", 10, "Mercadona"));
+        } else {
+            productos.add(new Producto("Otro", 10, "Mercadona"));
+        }
+
+        this.listViewProductsForAdded.setAdapter(new ProductoForAddItemAdapter(getActivity(), productos));
+
+    }
+
+    private void setupAddProductButton() {
+        listViewProductsForAdded.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //LOGICA PARA AÑADIR EL PRODUCTO
+
+            }
+        });
     }
 }
