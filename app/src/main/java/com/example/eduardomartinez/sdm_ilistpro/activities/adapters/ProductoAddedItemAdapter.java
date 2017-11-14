@@ -57,7 +57,7 @@ public class ProductoAddedItemAdapter extends BaseAdapter {
 
         Producto item = this.items.get(i);
         nombreLista.setText(item.getNombre());
-        //precioLista.setText(String.valueOf(item.getPrecio()));
+        precioLista.setText(String.valueOf(item.getPrecio()));
 
         return rowView;
     }

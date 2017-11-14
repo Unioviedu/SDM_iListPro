@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.example.eduardomartinez.sdm_ilistpro.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
+import com.example.eduardomartinez.sdm_ilistpro.TiposProducto;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoAddedItemAdapter;
 
 import java.util.LinkedList;
@@ -58,8 +59,10 @@ public class SavedListActivity extends AppCompatActivity {
 
     private void rellenarLista() {
         //Esto lo tendriamos que sacar de la base de datos
-        productosAñadidos.add(new Producto("ProductoPrueba1", 10, "Mercadona", 1));
-        productosAñadidos.add(new Producto("ProductoPrueba2", 10.5, "Alimerka", 2));
+        productosAñadidos.add(new Producto("ProductoPrueba1", 10,
+                "Mercadona", TiposProducto.CARNE, 1));
+        productosAñadidos.add(new Producto("ProductoPrueba2", 10.5,
+                "Alimerka", TiposProducto.PESCADO, 2));
         //
 
         this.listViewProductos.setAdapter(new ProductoAddedItemAdapter(this, productosAñadidos));

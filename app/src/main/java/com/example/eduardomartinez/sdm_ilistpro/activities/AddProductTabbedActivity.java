@@ -1,9 +1,11 @@
 package com.example.eduardomartinez.sdm_ilistpro.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -24,9 +26,11 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.eduardomartinez.sdm_ilistpro.GestorNewListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.TiposProducto;
+import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ListaCompraItemAdapter;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoForAddItemAdapter;
 
@@ -103,7 +107,10 @@ public class AddProductTabbedActivity extends AppCompatActivity {
     }
 
     public void addProductItem (View view) {
-        Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
+        Producto producto = GestorNewListaCompra.getInstance().addProducto((long)view.getTag());
+
+        Utilidades.crearDialogoSencillo(this, producto.getNombre(),
+                "Se ha añadido correctamente por el precio de "+ Utilidades.precio(producto.getPrecio()));
     }
 
     /**

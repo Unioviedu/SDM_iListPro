@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\karolmc\git\SDM_iListPro\SDM_iListPro.iml" filepath="C:\Users\karolmc\git\SDM_iListPro\SDM_iListPro.iml" />
-      <module fileurl="file://C:\Users\karolmc\git\SDM_iListPro\app\app.iml" filepath="C:\Users\karolmc\git\SDM_iListPro\app\app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SDM_iListPro.iml" filepath="$PROJECT_DIR$/SDM_iListPro.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/SDM_iListPro.iml" filepath="$PROJECT_DIR$/.idea/SDM_iListPro.iml" />
+      <module fileurl="file://C:\Users\karolmc\git\SDM_iListPro\SDM_iListPro.iml" filepath="C:\Users\karolmc\git\SDM_iListPro\SDM_iListPro.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\karolmc\git\SDM_iListPro\app\app.iml" filepath="C:\Users\karolmc\git\SDM_iListPro\app\app.iml" />
     </modules>
   </component>
 </project>

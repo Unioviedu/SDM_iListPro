@@ -8,14 +8,16 @@ public class Producto {
     private String nombre;
     private double precio;
     private String supermercado;
+    private int tipo;
     private int imagen;
 
     private long id;
 
-    public Producto(String nombre, double precio, String supermercado, long id) {
+    public Producto(String nombre, double precio, String supermercado, int tipo, long id) {
         this.nombre = nombre;
         this.precio = precio;
         this.supermercado = supermercado;
+        this.tipo = tipo;
         this.id = id;
     }
 
@@ -52,4 +54,8 @@ public class Producto {
     }
 
     public long getId() {return id; }
+
+    public int getTipo() {
+        return tipo;
+    }
 }

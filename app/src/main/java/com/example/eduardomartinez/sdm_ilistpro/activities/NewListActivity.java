@@ -8,8 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.eduardomartinez.sdm_ilistpro.GestorNewListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.ListaCompra;
+import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoAddedItemAdapter;
 import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
@@ -20,7 +23,7 @@ import java.util.List;
 
 public class NewListActivity extends AppCompatActivity implements Serializable{
     EditText nombreLista;
-    EditText precioLista;
+    TextView precioLista;
     ListView listViewProductos;
 
     ListaCompra newListaCompra = new ListaCompra();
@@ -32,6 +35,19 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
 
         buscarComponentes();
         rellenarLista();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        rellenarLista();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        GestorNewListaCompra.getInstance().clear();
     }
 
     public boolean onCreateOptionsMenu (final Menu menu) {
@@ -52,12 +68,14 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
 
     private void buscarComponentes() {
         nombreLista = (EditText) findViewById(R.id.textNombreLista);
-        precioLista = (EditText) findViewById(R.id.textPrecioLista);
+        precioLista = (TextView) findViewById(R.id.textViewValorPrecioLista);
         listViewProductos = (ListView) findViewById(R.id.listViewProductos);
     }
 
     private void rellenarLista() {
-        this.listViewProductos.setAdapter(new ProductoAddedItemAdapter(this, newListaCompra.getProductos()));
+        this.listViewProductos.setAdapter(new ProductoAddedItemAdapter(this,
+                GestorNewListaCompra.getInstance().getProductosAñadidos()));
+        precioLista.setText(Utilidades.precio(GestorNewListaCompra.getInstance().getPrecioTotal()));
     }
 
     public void addProduct (View view) {
