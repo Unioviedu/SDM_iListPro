@@ -1,5 +1,4 @@
-*.lock
-*.bin
+.gradle/
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
