@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="databaseName">database.db</string>
+    <integer name="databaseVersion">1</integer>
+
+    <!--Tabla Productos-->
+    <!-- Creo que no hace falta pero de momento lo dejo
+    <string name="tableProducts">PRODUCTOS</string>
+    <string name="tableProducts_id">ID</string>
+    <string name="tableProducts_supermercadoId">SUPERMERCADO_ID</string>
+    <string name="tableProducts_name">NOMBRE</string>
+    <string name="tableProducts_price">PRECIO</string>
+    <string name="tableProducts_photo">FOTO</string>
+    <string name="tableProducts_barCode">CODIGO_BARRA</string>
+    <string name="tableProducts_description">DESCRIPCION</string>
+    <string name="tableProducts_category">CATEGORIA</string>
+
+
+    Tabla Lista de Compra
+    <string name="tableShoppingLists">LISTAS_DE_COMPRA</string>
+    <string name="tableShoppingLists_id">ID</string>
+    <string name="tableShoppingLists_name">NOMBRE</string>
+    <string name="tableShoppingLists_maxDistance">DISTANCIA_MAX</string>
+    <string name="tableShoppingLists_longitude">LONGITUD</string>
+    <string name="tableShoppingLists_latitude">LATITUD</string>
+    <string name="tableShoppingLists_various">VARIOS</string>
+
+    Tabla Supermercados
+    <string name="tableSupermarkets">SUPERMERCADOS</string>
+    <string name="tableSupermarkets_id">ID</string>
+    <string name="tableSupermarkets_name">NOMBRE</string>
+    <string name="tableSupermarkets_longitude">LONGITUD</string>
+    <string name="tableSupermarkets_latitude">LATITUD</string>
+
+    -->
+    <!--Creación de tablas-->
+    <string name="createTable_Supermarkets">
+        CREATE TABLE SUPERMERCADOS (
+            ID INTEGER PRIMARY KEY AUTOINCREMENT,
+            NOMBRE TEXT,
+            LONGITUD INTEGER,
+            LATITUDE INTEGER
+        );
+    </string>
+    <string name="createTable_Products">
+        CREATE TABLE PRODUCTOS (
+            ID INTEGER PRIMARY KEY AUTOINCREMENT,
+            SUPERMERCADO_ID INTEGER REFERENCES SUPERMERCADOS(ID),
+            NOMBRE TEXT,
+            PRECIO REAL,
+            FOTO INTEGER,
+            CODIGO_BARRA,
+            CATEGORIA
+        );
+    </string>
+    <string name="createTable_ShoppingList">
+        CREATE TABLE LISTA_DE_COMPRA (
+            ID INTEGER PRIMARY KEY AUTOINCREMENT,
+            NOMBRE TEXT,
+            LONGITUD REAL,
+            LATITUDE REAL,
+            VARIOS INTEGER CHECK(VARIOS = 0 || VARIOS = 1)
+        );
+    </string>
+    <string name="createTable_ShoppingList_Products">
+        CREATE TABLE LISTA_DE_COMPRA_PRODUCTOS (
+            PRODUCTO_ID INTEGER NOT NULL,
+            LISTA_DE_COMPRA_ID INTEGER NOT NULL,
+            PRIMARY KEY (PRODUCTO_ID, LISTA_DE_COMPRA_ID),
+            FOREIGN KEY (PRODUCTO_ID) REFERENCES PRODUCTOS(ID),
+            FOREIGN KEY (LISTA_DE_COMPRA_ID) REFERENCES LISTA_DE_COMPRA(ID)
+        );
+    </string>
+    <!--Destrucción de tablas-->
+    <string name="dropTable_Supermarkets">
+        DROP TABLE SUPERMERCADOS;
+    </string>
+    <string name="dropTable_Products">
+        DROP TABLE PRODUCTOS;
+    </string>
+    <string name="dropTable_ShoppingList">
+        DROP TABLE LISTA_DE_COMPRA;
+    </string>
+    <string name="dropTable_ShoppingList_Products">
+        DROP TABLE LISTA_DE_COMPRA_PRODUCTOS;
+    </string>
+</resources>
