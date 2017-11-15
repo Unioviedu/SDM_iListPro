@@ -67,6 +67,7 @@ public class SavedListActivity extends AppCompatActivity implements SearchView.O
         Intent intent = new Intent(this, NewListActivity.class);
         intent.putExtra(SerializablesTag.EDIT_LIST_COMPRA, listaCompraActual);
         startActivity(intent);
+        finish();
     }
 
     public void comprarProducto(View view) {

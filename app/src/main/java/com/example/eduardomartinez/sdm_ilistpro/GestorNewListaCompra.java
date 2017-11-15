@@ -5,6 +5,7 @@ import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,19 +15,27 @@ import java.util.List;
 
 public class GestorNewListaCompra {
 
-    private static final GestorNewListaCompra instance = new GestorNewListaCompra();
+    private static GestorNewListaCompra instance;
 
-    private List<Producto> productosAñadidos = new LinkedList<>();
+    private List<Producto> productosAñadidos;
 
-    private HashMap<Long, Producto> todosProductos = new HashMap<>();
+    private HashMap<Long, Integer> cantidadProductos;
+
+    private HashMap<Long, Producto> todosProductos;
 
     private GestorNewListaCompra() {
+        productosAñadidos = new LinkedList<>();
+        cantidadProductos = new LinkedHashMap<>();
+        todosProductos = new HashMap<>();
+
         for (Producto p : DatabaseORM.getInstance().getAllProductos()) {
             todosProductos.put(p.getId(), p);
         }
     }
 
     public static GestorNewListaCompra getInstance() {
+        if (instance == null)
+            instance = new GestorNewListaCompra();
         return instance;
     }
 
@@ -40,20 +49,32 @@ public class GestorNewListaCompra {
 
     public Producto addProducto(long id) {
         Producto p = todosProductos.get(id);
-        productosAñadidos.add(p);
+
+        if (!cantidadProductos.containsKey(id)) {
+            productosAñadidos.add(p);
+            cantidadProductos.put(p.getId(), 1);
+        } else {
+            cantidadProductos.put(p.getId(), cantidadProductos.get(id)+1);
+        }
 
         return p;
     }
 
     public Producto deleteProducto(long id) {
         Producto p = todosProductos.get(id);
-        productosAñadidos.remove(p);
+        int cantidad = cantidadProductos.get(id) - 1;
+
+        if (cantidad > 0) {
+            cantidadProductos.put(p.getId(), cantidad);
+        } else
+            productosAñadidos.remove(p);
 
         return p;
     }
 
     public void clear() {
         productosAñadidos = new LinkedList<>();
+        cantidadProductos = new HashMap<>();
     }
 
     public double getPrecioTotal() {
@@ -66,6 +87,9 @@ public class GestorNewListaCompra {
 
     public void editList(ListaCompra listaCompraEditar) {
         productosAñadidos.addAll(listaCompraEditar.getProductos());
+
+        for (Producto p: productosAñadidos)
+            cantidadProductos.put(p.getId(), 1);
     }
 
     public boolean isProductoAñadido(long id) {
@@ -74,5 +98,12 @@ public class GestorNewListaCompra {
                 return true;
 
         return false;
+    }
+
+    public int cantidadProducto(long id) {
+        if (cantidadProductos.containsKey(id))
+            return cantidadProductos.get(id);
+
+        return 1;
     }
 }

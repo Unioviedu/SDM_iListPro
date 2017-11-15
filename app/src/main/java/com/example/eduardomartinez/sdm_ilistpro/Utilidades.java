@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.example.eduardomartinez.sdm_ilistpro.activities.ListProductsFragment;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
 
@@ -79,5 +80,9 @@ public class Utilidades {
         }
 
         return listaTemp;
+    }
+
+    public static List<Producto> orderProductos(List<Producto> productos) {
+        return QuickSort.quicksort(productos, 0, productos.size()-1);
     }
 }

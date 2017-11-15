@@ -40,8 +40,8 @@ public class DatabaseORM {
         productoDao = daoSession.getProductoDao();
         listaCompraDao = daoSession.getListaCompraDao();
         supermercadoDao = daoSession.getSupermercadoDao();
-        //inicializarProductos();
-        //inicializarListasCompra();
+        inicializarProductos();
+        inicializarListasCompra();
     }
 
     public static DatabaseORM getInstance(Application app){
@@ -87,7 +87,6 @@ public class DatabaseORM {
     }
 
     public void saveListaCompra(ListaCompra lista) {
-
         listaCompraDao.insert(lista);
     }
 

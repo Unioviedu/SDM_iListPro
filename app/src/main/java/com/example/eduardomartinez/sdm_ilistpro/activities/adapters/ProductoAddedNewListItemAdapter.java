@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.eduardomartinez.sdm_ilistpro.GestorNewListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
@@ -65,7 +66,9 @@ public class ProductoAddedNewListItemAdapter extends BaseAdapter {
         nombreLista.setText(item.getNombre());
         precioLista.setText(Utilidades.precio(item.getPrecio()));
         nombreSupermercado.setText(item.getSupermercado());
-        numeroProducto.setText("1");
+
+        int cantidad = GestorNewListaCompra.getInstance().cantidadProducto(item.getId());
+        numeroProducto.setText(String.valueOf(cantidad));
 
         addButton.setTag(item.getId());
 

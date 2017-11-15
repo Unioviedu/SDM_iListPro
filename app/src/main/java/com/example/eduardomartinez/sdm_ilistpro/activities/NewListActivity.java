@@ -42,14 +42,20 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
                 : getIntent().getExtras().get(SerializablesTag.EDIT_LIST_COMPRA);
 
         if (obj != null) {
-            ListaCompra listaCompraEditar = (ListaCompra) obj;
+            prepararEdicion(obj);
             modoEdicion = true;
-            GestorNewListaCompra.getInstance().editList(listaCompraEditar);
-            nombreLista.setText(listaCompraEditar.getNombre());
         } else
             modoEdicion = false;
 
         rellenarLista();
+    }
+
+    private void prepararEdicion(Object obj) {
+        GestorNewListaCompra.getInstance().clear();
+        ListaCompra listaCompraEditar = (ListaCompra) obj;
+        GestorNewListaCompra.getInstance().editList(listaCompraEditar);
+        newListaCompra.setId(listaCompraEditar.getId());
+        nombreLista.setText(listaCompraEditar.getNombre());
     }
 
     @Override
@@ -60,9 +66,9 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        GestorNewListaCompra.getInstance().clear();
+    protected void onStop() {
+        super.onStop();
+        //GestorNewListaCompra.getInstance().clear();
     }
 
     public void deleteProductItem (View view) {
@@ -142,5 +148,6 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
         Intent intent = new Intent(this, SavedListActivity.class);
         intent.putExtra(SerializablesTag.LISTA_COMPRA, newListaCompra);
         startActivity(intent);
+        finish();
     }
 }
