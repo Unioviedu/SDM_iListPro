@@ -19,12 +19,14 @@ public class JoinProductoConListaCompra implements Serializable{
     private Long id;
     private Long producto_id;
     private Long listaCompra_id;
-    @Generated(hash = 2087787266)
+    private Boolean comprado;
+    @Generated(hash = 473276865)
     public JoinProductoConListaCompra(Long id, Long producto_id,
-            Long listaCompra_id) {
+            Long listaCompra_id, Boolean comprado) {
         this.id = id;
         this.producto_id = producto_id;
         this.listaCompra_id = listaCompra_id;
+        this.comprado = comprado;
     }
     @Generated(hash = 579603966)
     public JoinProductoConListaCompra() {
@@ -46,5 +48,11 @@ public class JoinProductoConListaCompra implements Serializable{
     }
     public void setListaCompra_id(Long listaCompra_id) {
         this.listaCompra_id = listaCompra_id;
+    }
+    public Boolean getComprado() {
+        return this.comprado;
+    }
+    public void setComprado(Boolean comprado) {
+        this.comprado = comprado;
     }
 }

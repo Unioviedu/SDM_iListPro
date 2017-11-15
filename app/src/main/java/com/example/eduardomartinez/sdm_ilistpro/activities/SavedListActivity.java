@@ -7,32 +7,33 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.SearchView;
 
-import com.example.eduardomartinez.sdm_ilistpro.ListaCompra;
-import com.example.eduardomartinez.sdm_ilistpro.Producto;
+
 import com.example.eduardomartinez.sdm_ilistpro.R;
-import com.example.eduardomartinez.sdm_ilistpro.TiposProducto;
+import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoAddedItemAdapter;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class SavedListActivity extends AppCompatActivity {
+public class SavedListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
     ListView listViewProductos;
+    SearchView search;
 
     ListaCompra listaCompraActual;
-
-    List<Producto> productosAñadidos = new LinkedList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_list);
-        listaCompraActual = (ListaCompra) getIntent().getExtras().getSerializable(SerializablesTag.NEW_LIST_COMPRA);
+        listaCompraActual = (ListaCompra) getIntent().getExtras().getSerializable(SerializablesTag.LISTA_COMPRA);
         setTitle(listaCompraActual.getNombre());
 
         buscarComponentes();
-        rellenarLista();
+        rellenarLista(listaCompraActual.getProductos());
     }
 
     public boolean onCreateOptionsMenu (final Menu menu) {
@@ -45,13 +46,18 @@ public class SavedListActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_home) {
-            //HAY QUE VOLVER A LA PANTALLA DE INICIO
-            //MainActivity
+            moverAHome();
         } else if (id == R.id.action_edit) {
             moverEditListActivity();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void moverAHome() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void moverEditListActivity() {
@@ -60,15 +66,46 @@ public class SavedListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void buscarComponentes() {
-        listViewProductos = (ListView) findViewById(R.id.listViewProductSaved);
+    public void comprarProducto(View view) {
+        Producto producto = listaCompraActual.comprarProducto((long) view.getTag());
+        Utilidades.crearDialogoSencillo(this, producto.getNombre(),
+                "Has comprado este producto correctamente, puedes verlo activando la opcion Productos comprados de arriba");
+        mostrarComprados(false);
     }
 
-    private void rellenarLista() {
-        this.listViewProductos.setAdapter(new ProductoAddedItemAdapter(this, listaCompraActual.getProductos()));
+    private void mostrarComprados(boolean comprado) {
+        List<Producto> listaTemp = new LinkedList<>();
+        listaTemp.addAll(listaCompraActual.getProductos());
+
+        rellenarLista(Utilidades.filterProductoComprado(listaTemp, comprado));
+    }
+
+    private void buscarComponentes() {
+        listViewProductos = (ListView) findViewById(R.id.listViewProductSaved);
+        search = (SearchView) findViewById(R.id.searchProductSaved);
+        search.setOnQueryTextListener(this);
+    }
+
+    private void rellenarLista(List<Producto> productos) {
+        this.listViewProductos.setAdapter(new ProductoAddedItemAdapter(this, productos));
     }
 
     public void escanear(View view) {
         //AQUI LOGICA PARA ESCANEAR Y ELIMINAR PRODUCTO
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        List<Producto> temp = new LinkedList<>();
+        temp.addAll(listaCompraActual.getProductos());
+
+        List<Producto> listaFiltrada = Utilidades.filterProducto(temp, newText);
+        rellenarLista(listaFiltrada);
+        return false;
     }
 }

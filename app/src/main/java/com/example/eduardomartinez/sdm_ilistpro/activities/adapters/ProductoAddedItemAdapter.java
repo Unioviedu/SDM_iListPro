@@ -5,10 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -54,10 +55,13 @@ public class ProductoAddedItemAdapter extends BaseAdapter {
 
         TextView nombreLista = (TextView) rowView.findViewById(R.id.textViewNombreProductoItem);
         TextView precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioProductoItem);
+        CheckBox check = (CheckBox) rowView.findViewById(R.id.checkBoxProducto);
 
         Producto item = this.items.get(i);
         nombreLista.setText(item.getNombre());
         precioLista.setText(String.valueOf(item.getPrecio()));
+
+        check.setTag(item.getId());
 
         return rowView;
     }
