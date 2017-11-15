@@ -60,6 +60,10 @@ public class ListaCompra implements Serializable{
 
     public List<Producto> getProductos () {return productos; }
 
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
+
     public void addProducto(Producto producto) {
         productos.add(producto);
     }

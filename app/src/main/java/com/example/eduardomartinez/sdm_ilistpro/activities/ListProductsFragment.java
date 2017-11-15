@@ -3,12 +3,14 @@ package com.example.eduardomartinez.sdm_ilistpro.activities;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.example.eduardomartinez.sdm_ilistpro.GestorNewListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.TiposProducto;
@@ -18,6 +20,7 @@ import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoForA
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class ListProductsFragment extends Fragment {
     private ListView listViewProductsForAdded;
@@ -34,7 +37,6 @@ public class ListProductsFragment extends Fragment {
         listViewProductsForAdded = (ListView) rootView.findViewById(R.id.listViewProductForAdd);
 
         rellenarListaProductos();
-        //setupAddProductButton();
 
         return rootView;
     }
@@ -43,23 +45,12 @@ public class ListProductsFragment extends Fragment {
         //Esto desde la base de datos
         List<Producto> productos = new LinkedList<>();
 
-        if (tipo == TiposProducto.CARNE) {
-            productos.add(new Producto("Carne", 10, "Mercadona", 1));
-        } else {
-            productos.add(new Producto("Otro", 10, "Mercadona", 2));
+        for (Map.Entry<Long, Producto> entry: GestorNewListaCompra.getInstance().getTodosProductos().entrySet()) {
+            if (tipo == entry.getValue().getTipo() || tipo == TiposProducto.TODO)
+                productos.add(entry.getValue());
         }
 
         this.listViewProductsForAdded.setAdapter(new ProductoForAddItemAdapter(getActivity(), productos));
 
-    }
-
-    private void setupAddProductButton() {
-        listViewProductsForAdded.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //LOGICA PARA AÑADIR EL PRODUCTO
-
-            }
-        });
     }
 }
