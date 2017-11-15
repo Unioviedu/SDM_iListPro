@@ -54,6 +54,8 @@ public class AddProductTabbedActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+    public SearchView search;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

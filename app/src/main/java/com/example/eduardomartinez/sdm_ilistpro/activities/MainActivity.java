@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
+import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ListaCompraItemAdapter;
 import com.example.eduardomartinez.sdm_ilistpro.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.R;
@@ -14,31 +18,37 @@ import com.example.eduardomartinez.sdm_ilistpro.R;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
     ListView listListaCompra;
+    SearchView search;
+
     List<ListaCompra> listaListaCompra = new LinkedList<>();
+    ListaCompraItemAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Esto base de datos
+        listaListaCompra.add(new ListaCompra("papa", 10.5));
+        listaListaCompra.add(new ListaCompra("mama", 11));
+
         buscarComponentes();
-        rellenarLista();
+        rellenarLista(listaListaCompra);
         añadirFunciones();
     }
 
-    private void rellenarLista() {
-        //Esto lo tendriamos que sacar de la base de datos
-        listaListaCompra.add(new ListaCompra("prueba", 10.5));
-        listaListaCompra.add(new ListaCompra("prueba 2", 11));
-        //
+    private void rellenarLista(List<ListaCompra> listaListaCompra) {
+        adapter = new ListaCompraItemAdapter(this, listaListaCompra);
+        this.listListaCompra.setAdapter(adapter);
 
-        this.listListaCompra.setAdapter(new ListaCompraItemAdapter(this, listaListaCompra));
+        search.setOnQueryTextListener(this);
     }
 
     private void buscarComponentes() {
         listListaCompra = (ListView) findViewById(R.id.listViewListaCompra);
+        search = (SearchView) findViewById(R.id.searchList);
     }
 
     private void añadirFunciones() {
@@ -67,5 +77,20 @@ public class MainActivity extends AppCompatActivity {
         //NewListActivity
         Intent intent = new Intent(this, NewListActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        List<ListaCompra> temp = new LinkedList<>();
+        temp.addAll(listaListaCompra);
+
+        List<ListaCompra> listaFiltrada = Utilidades.filterListaCompra(temp, newText);
+        rellenarLista(listaFiltrada);
+        return false;
     }
 }

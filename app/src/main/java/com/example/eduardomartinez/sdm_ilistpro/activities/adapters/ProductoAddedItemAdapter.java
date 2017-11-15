@@ -53,11 +53,11 @@ public class ProductoAddedItemAdapter extends BaseAdapter {
         }
 
         TextView nombreLista = (TextView) rowView.findViewById(R.id.textViewNombreProductoItem);
-        TextView precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioListaItem);
+        TextView precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioProductoItem);
 
         Producto item = this.items.get(i);
         nombreLista.setText(item.getNombre());
-        //precioLista.setText(String.valueOf(item.getPrecio()));
+        precioLista.setText(String.valueOf(item.getPrecio()));
 
         return rowView;
     }

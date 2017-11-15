@@ -8,9 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.eduardomartinez.sdm_ilistpro.ListaCompra;
+import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by eduardomartinez on 6/11/17.

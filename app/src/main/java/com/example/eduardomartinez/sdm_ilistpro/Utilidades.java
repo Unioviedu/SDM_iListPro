@@ -3,6 +3,11 @@ package com.example.eduardomartinez.sdm_ilistpro;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by eduardomartinez on 14/11/17.
@@ -26,5 +31,39 @@ public class Utilidades {
 
                             }
                         }).show();
+    }
+
+    public static List<ListaCompra> filterListaCompra(List<ListaCompra> items, String text) {
+
+        if (text.length() > 0) {
+            List<ListaCompra> listaTemp = new LinkedList<>();
+            listaTemp.addAll(items);
+
+            items.clear();
+
+            for (ListaCompra lista: listaTemp) {
+                if (lista.getNombre().toLowerCase(Locale.getDefault()).contains(text))
+                    items.add(lista);
+            }
+        }
+
+        return items;
+    }
+
+    public static List<Producto> filterProducto(List<Producto> items, String text) {
+
+        if (text.length() > 0) {
+            List<Producto> listaTemp = new LinkedList<>();
+            listaTemp.addAll(items);
+
+            items.clear();
+
+            for (Producto producto: listaTemp) {
+                if (producto.getNombre().toLowerCase(Locale.getDefault()).contains(text))
+                    items.add(producto);
+            }
+        }
+
+        return items;
     }
 }
