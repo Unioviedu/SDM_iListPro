@@ -5,19 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ListaCompraItemAdapter;
-import com.example.eduardomartinez.sdm_ilistpro.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
-import com.example.eduardomartinez.sdm_ilistpro.database.Datasource;
-import com.example.eduardomartinez.sdm_ilistpro.database.model.Supermercado;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +32,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
 
         db = DatabaseORM.getInstance(getApplication());
+        listaListaCompra = db.getAllListaCompra();
+        Log.d("Prueba",listaListaCompra.toString());
         buscarComponentes();
+
         rellenarLista(listaListaCompra);
         añadirFunciones();
     }
@@ -44,13 +43,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private void rellenarLista(List<ListaCompra> listaListaCompra) {
         adapter = new ListaCompraItemAdapter(this, listaListaCompra);
         this.listListaCompra.setAdapter(adapter);
-
-        search.setOnQueryTextListener(this);
     }
 
     private void buscarComponentes() {
         listListaCompra = (ListView) findViewById(R.id.listViewListaCompra);
         search = (SearchView) findViewById(R.id.searchList);
+        search.setOnQueryTextListener(this);
     }
 
     private void añadirFunciones() {
@@ -67,8 +65,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     private void moverListShoppingSavedActivity(ListaCompra lista) {
-        //AQUI HAY QUE PASAR el objeto lista A LA ACTIVITY de la lista seleccionada
-        //SavedListActivity
         Intent intent = new Intent(this, SavedListActivity.class);
         intent.putExtra(SerializablesTag.LISTA_COMPRA, lista);
         startActivity(intent);
@@ -79,6 +75,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         //NewListActivity
         Intent intent = new Intent(this, NewListActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        listaListaCompra = db.getAllListaCompra();
     }
 
     @Override

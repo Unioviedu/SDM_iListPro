@@ -3,6 +3,7 @@ package com.example.eduardomartinez.sdm_ilistpro.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,18 +12,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.eduardomartinez.sdm_ilistpro.GestorNewListaCompra;
-import com.example.eduardomartinez.sdm_ilistpro.ListaCompra;
-import com.example.eduardomartinez.sdm_ilistpro.TiposProducto;
 import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
-import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoAddedItemAdapter;
-import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoAddedNewListItemAdapter;
-import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoForAddItemAdapter;
+import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 
 public class NewListActivity extends AppCompatActivity implements Serializable{
     EditText nombreLista;
@@ -114,12 +111,28 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
     }
 
     public void saveList (View v) {
-        newListaCompra.setNombre(nombreLista.getText().toString());
-        newListaCompra.setPrecio(GestorNewListaCompra.getInstance().getPrecioTotal());
-        newListaCompra.setProductos(GestorNewListaCompra.getInstance().getProductosAñadidos());
-        //Logica para guardar la lista en la BDD
+        if (nombreLista.getText().toString().isEmpty()) {
+            Utilidades.crearDialogoSencillo(this, "Dale un nombre a tu lista",
+                    "Es necesario que le asignes un nombre a la lista para poder guardarla");
+        }
 
-        moverListShoppingSavedActivity();
+        else if (GestorNewListaCompra.getInstance().getProductosAñadidos().isEmpty()) {
+            Utilidades.crearDialogoSencillo(this, "No has añadido ningun producto",
+                    "Es necesario que añadas por lo menos un producto a tu lista para gaurdarla");
+        }
+
+        else {
+            newListaCompra.setNombre(nombreLista.getText().toString());
+            newListaCompra.addProductos(GestorNewListaCompra.getInstance().getProductosAñadidos());
+
+            if (!modoEdicion)
+                DatabaseORM.getInstance().saveListaCompra(newListaCompra);
+            else {
+                DatabaseORM.getInstance().updateListaCompra(newListaCompra);
+            }
+
+            moverListShoppingSavedActivity();
+        }
     }
 
     private void moverSettingsActivity () {
@@ -130,7 +143,7 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
         //AQUI HAY QUE PASAR A LA ACTIVITY de la lista que acabamos de guardar
         //SavedListActivity
         Intent intent = new Intent(this, SavedListActivity.class);
-        intent.putExtra(SerializablesTag.NEW_LIST_COMPRA, newListaCompra);
+        intent.putExtra(SerializablesTag.LISTA_COMPRA, newListaCompra);
         startActivity(intent);
     }
 }

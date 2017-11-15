@@ -3,7 +3,6 @@ package com.example.eduardomartinez.sdm_ilistpro.activities;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +10,11 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.example.eduardomartinez.sdm_ilistpro.GestorNewListaCompra;
-import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.TiposProducto;
 import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
-import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ListaCompraItemAdapter;
-import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoAddedItemAdapter;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoForAddItemAdapter;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -49,7 +46,7 @@ public class ListProductsFragment extends Fragment implements SearchView.OnQuery
         List<Producto> productos = new LinkedList<>();
 
         for (Map.Entry<Long, Producto> entry: GestorNewListaCompra.getInstance().getTodosProductos().entrySet()) {
-            if (tipo == entry.getValue().getTipo() || tipo == TiposProducto.TODO)
+            if (tipo == entry.getValue().getCategoria() || tipo == TiposProducto.TODO)
                 productos.add(entry.getValue());
         }
 
@@ -63,13 +60,12 @@ public class ListProductsFragment extends Fragment implements SearchView.OnQuery
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        Log.i("yee", "Holi");
-        rellenarListaProductos(true, s);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String s) {
+        rellenarListaProductos(true, s);
         return false;
     }
 }

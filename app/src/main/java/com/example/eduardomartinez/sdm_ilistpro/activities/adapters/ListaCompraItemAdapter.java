@@ -7,12 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.eduardomartinez.sdm_ilistpro.ListaCompra;
-import com.example.eduardomartinez.sdm_ilistpro.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.R;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by eduardomartinez on 6/11/17.
@@ -58,7 +56,7 @@ public class ListaCompraItemAdapter extends BaseAdapter {
 
         ListaCompra item = this.items.get(i);
         nombreLista.setText(item.getNombre());
-        precioLista.setText(String.valueOf(item.getPrecio()));
+        precioLista.setText(String.valueOf(item.getImporteTotal()));
 
         return rowView;
     }

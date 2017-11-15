@@ -18,39 +18,31 @@ public class Producto implements Serializable {
 
     @Id
     private Long id;
-    private Long supermercado_id;
-    @ToOne(joinProperty = "supermercado_id")
-    private Supermercado supermercado;
+    private String supermercado;
     private String nombre;
     private Double precio;
     private Integer foto;
     private Long codigo_barra;
     private Integer categoria;
 
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-
-    /** Used for active entity operations. */
-    @Generated(hash = 2021018510)
-    private transient ProductoDao myDao;
-
-    @Generated(hash = 557042594)
-    private transient Long supermercado__resolvedKey;
 
     public Producto() {
     }
 
-    @Generated(hash = 1240527839)
-    public Producto(Long id, Long supermercado_id, String nombre, Double precio, Integer foto, Long codigo_barra, Integer categoria) {
+
+    @Generated(hash = 1052805079)
+    public Producto(Long id, String supermercado, String nombre, Double precio,
+            Integer foto, Long codigo_barra, Integer categoria) {
         this.id = id;
-        this.supermercado_id = supermercado_id;
+        this.supermercado = supermercado;
         this.nombre = nombre;
         this.precio = precio;
         this.foto = foto;
         this.codigo_barra = codigo_barra;
         this.categoria = categoria;
     }
+    
+    
 
     public Long getId() {
         return id;
@@ -123,14 +115,6 @@ public class Producto implements Serializable {
                 '}';
     }
 
-    public Long getSupermercado_id() {
-        return this.supermercado_id;
-    }
-
-    public void setSupermercado_id(Long supermercado_id) {
-        this.supermercado_id = supermercado_id;
-    }
-
     public Long getCodigo_barra() {
         return this.codigo_barra;
     }
@@ -139,75 +123,12 @@ public class Producto implements Serializable {
         this.codigo_barra = codigo_barra;
     }
 
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1676574270)
-    public Supermercado getSupermercado() {
-        Long __key = this.supermercado_id;
-        if (supermercado__resolvedKey == null || !supermercado__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            SupermercadoDao targetDao = daoSession.getSupermercadoDao();
-            Supermercado supermercadoNew = targetDao.load(__key);
-            synchronized (this) {
-                supermercado = supermercadoNew;
-                supermercado__resolvedKey = __key;
-            }
-        }
-        return supermercado;
+    public void setSupermercado(String supermercado) {
+        this.supermercado = supermercado;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1780489876)
-    public void setSupermercado(Supermercado supermercado) {
-        synchronized (this) {
-            this.supermercado = supermercado;
-            supermercado_id = supermercado == null ? null : supermercado.getId();
-            supermercado__resolvedKey = supermercado_id;
-        }
-    }
 
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.delete(this);
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 1942392019)
-    public void refresh() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.refresh(this);
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 713229351)
-    public void update() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.update(this);
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1100354616)
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getProductoDao() : null;
+    public String getSupermercado() {
+        return this.supermercado;
     }
 }

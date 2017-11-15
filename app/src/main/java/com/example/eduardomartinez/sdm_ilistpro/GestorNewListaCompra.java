@@ -1,5 +1,9 @@
 package com.example.eduardomartinez.sdm_ilistpro;
 
+import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,10 +21,9 @@ public class GestorNewListaCompra {
     private HashMap<Long, Producto> todosProductos = new HashMap<>();
 
     private GestorNewListaCompra() {
-        todosProductos.put((long)1, new Producto("Producto1", 10.0, "Mercadona",
-                TiposProducto.CARNE, 1));
-        todosProductos.put((long)2, new Producto("Producto2", 10.0, "Mercadona",
-                TiposProducto.PESCADO, 2));
+        for (Producto p : DatabaseORM.getInstance().getAllProductos()) {
+            todosProductos.put(p.getId(), p);
+        }
     }
 
     public static GestorNewListaCompra getInstance() {

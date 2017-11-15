@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -65,5 +68,16 @@ public class Utilidades {
         }
 
         return items;
+    }
+
+    public static List<Producto> filterProductoComprado(List<Producto> items, boolean comprado) {
+        List<Producto> listaTemp = new LinkedList<>();
+
+        for (Producto producto: items) {
+            if (false == comprado)
+                listaTemp.add(producto);
+        }
+
+        return listaTemp;
     }
 }

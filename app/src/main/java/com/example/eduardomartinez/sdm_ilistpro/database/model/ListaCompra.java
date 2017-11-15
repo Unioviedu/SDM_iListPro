@@ -1,5 +1,7 @@
 package com.example.eduardomartinez.sdm_ilistpro.database.model;
 
+import android.util.Log;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinEntity;
@@ -23,7 +25,6 @@ public class ListaCompra implements Serializable {
     @Id
     private Long id;
     private String nombre;
-    private Double precio;
     private Integer imagen;
     @ToMany()
     @JoinEntity(entity = JoinProductoConListaCompra.class,
@@ -43,19 +44,17 @@ public class ListaCompra implements Serializable {
     public ListaCompra() {
     }
 
-    public ListaCompra(String nombre, double precio) {
+    public ListaCompra(String nombre) {
         this.nombre = nombre;
-        this.precio = precio;
     }
 
-    @Generated(hash = 1531771271)
-    public ListaCompra(Long id, String nombre, Double precio, Integer imagen) {
+    @Generated(hash = 13077465)
+    public ListaCompra(Long id, String nombre, Integer imagen) {
         this.id = id;
         this.nombre = nombre;
-        this.precio = precio;
         this.imagen = imagen;
     }
-
+    
 
     public Long getId() {
         return id;
@@ -73,29 +72,12 @@ public class ListaCompra implements Serializable {
         this.nombre = nombre;
     }
 
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
     public Integer getImagen() {
         return imagen;
     }
 
     public void setImagen(Integer imagen) {
         this.imagen = imagen;
-    }
-
-    @Keep
-    public List<Producto> getProductos() {
-        return productos;
-    }
-
-    public void setProductos(List<Producto> productos) {
-        this.productos = productos;
     }
 
     @Override
@@ -108,6 +90,14 @@ public class ListaCompra implements Serializable {
         return id != null ? id.equals(that.id) : that.id == null;
     }
 
+    public void addProducto(Producto producto){
+        productos.add(producto);
+    }
+
+    public void addProductos(List<Producto> productos){
+        this.productos.addAll(productos);
+    }
+
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
@@ -116,7 +106,9 @@ public class ListaCompra implements Serializable {
     @Override
     public String toString() {
         return "ListaCompra{" +
-                "nombre='" + nombre + '\'' +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", productos=" + productos +
                 '}';
     }
 
@@ -160,6 +152,44 @@ public class ListaCompra implements Serializable {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 1043042392)
+    public List<Producto> getProductos() {
+        if (productos == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ProductoDao targetDao = daoSession.getProductoDao();
+            List<Producto> productosNew = targetDao._queryListaCompra_Productos(id);
+            synchronized (this) {
+                if (productos == null) {
+                    productos = productosNew;
+                }
+            }
+        }
+        return productos;
+    }
+
+    public Producto comprarProducto (long id) {
+        for (Producto p: productos) {
+            return p;
+        }
+
+        return null;
+    }
+
+    public double getImporteTotal() {
+        double importe = 0.0;
+        for (Producto p: productos)
+            importe += p.getPrecio();
+
+        return importe;
     }
 
     /** called by internal mechanisms, do not call yourself. */
