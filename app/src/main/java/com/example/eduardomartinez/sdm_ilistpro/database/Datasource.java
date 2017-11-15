@@ -2,6 +2,7 @@ package com.example.eduardomartinez.sdm_ilistpro.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.eduardomartinez.sdm_ilistpro.R;
 
@@ -39,4 +40,6 @@ public class Datasource {
     public void close() {
         dbConfig.close();
     }
+
+
 }
