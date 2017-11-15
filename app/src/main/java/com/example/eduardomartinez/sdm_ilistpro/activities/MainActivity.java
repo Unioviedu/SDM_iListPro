@@ -3,6 +3,7 @@ package com.example.eduardomartinez.sdm_ilistpro.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -10,7 +11,9 @@ import android.widget.ListView;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ListaCompraItemAdapter;
 import com.example.eduardomartinez.sdm_ilistpro.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.R;
+import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
 import com.example.eduardomartinez.sdm_ilistpro.database.Datasource;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.Supermercado;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,14 +21,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     ListView listListaCompra;
     List<ListaCompra> listaListaCompra = new LinkedList<>();
-    Datasource datasource;
+    DatabaseORM db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        datasource = Datasource.getInstance(getApplicationContext());
+        db = DatabaseORM.getInstance(getApplication());
         buscarComponentes();
         rellenarLista();
         añadirFunciones();
