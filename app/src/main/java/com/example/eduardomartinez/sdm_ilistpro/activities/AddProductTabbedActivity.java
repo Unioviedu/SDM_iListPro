@@ -107,6 +107,7 @@ public class AddProductTabbedActivity extends AppCompatActivity {
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
+        private ListProductsFragment productsFragment;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -114,7 +115,7 @@ public class AddProductTabbedActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int tipo) {
-            ListProductsFragment productsFragment = new ListProductsFragment();
+            productsFragment = new ListProductsFragment();
             Bundle bundle = new Bundle();
             bundle.putInt(SerializablesTag.TIPO_LISTA_PRODUCTOS, tipo);
             productsFragment.setArguments(bundle);

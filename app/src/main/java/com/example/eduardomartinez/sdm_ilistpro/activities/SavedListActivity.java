@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Switch;
 
 
 import com.example.eduardomartinez.sdm_ilistpro.R;
@@ -22,6 +24,7 @@ import java.util.List;
 public class SavedListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
     ListView listViewProductos;
     SearchView search;
+    Switch verCompletados;
 
     ListaCompra listaCompraActual;
 
@@ -82,6 +85,17 @@ public class SavedListActivity extends AppCompatActivity implements SearchView.O
 
     private void buscarComponentes() {
         listViewProductos = (ListView) findViewById(R.id.listViewProductSaved);
+
+        verCompletados = (Switch) findViewById(R.id.switchVerCompletados);
+        verCompletados.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    mostrarComprados(true);
+                else
+                    mostrarComprados(false);
+            }
+        });
+
         search = (SearchView) findViewById(R.id.searchProductSaved);
         search.setOnQueryTextListener(this);
     }

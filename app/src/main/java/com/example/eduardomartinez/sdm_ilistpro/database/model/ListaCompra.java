@@ -177,9 +177,10 @@ public class ListaCompra implements Serializable {
     }
 
     public Producto comprarProducto (long id) {
-        for (Producto p: productos) {
-            return p;
-        }
+        //AQUI DEBERIA IR LA LOGICA DE COMPRAR PRODUCTO
+        for (Producto p: productos)
+            if (p.getId() == id)
+                return p;
 
         return null;
     }

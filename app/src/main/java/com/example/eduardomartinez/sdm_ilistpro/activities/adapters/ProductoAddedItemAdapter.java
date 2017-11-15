@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.eduardomartinez.sdm_ilistpro.R;
+import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
 
 import java.util.LinkedList;
@@ -59,7 +60,7 @@ public class ProductoAddedItemAdapter extends BaseAdapter {
 
         Producto item = this.items.get(i);
         nombreLista.setText(item.getNombre());
-        precioLista.setText(String.valueOf(item.getPrecio()));
+        precioLista.setText(Utilidades.precio(item.getPrecio()));
 
         check.setTag(item.getId());
 

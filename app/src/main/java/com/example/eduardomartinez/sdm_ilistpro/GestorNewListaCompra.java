@@ -65,6 +65,14 @@ public class GestorNewListaCompra {
     }
 
     public void editList(ListaCompra listaCompraEditar) {
-        productosAñadidos = listaCompraEditar.getProductos();
+        productosAñadidos.addAll(listaCompraEditar.getProductos());
+    }
+
+    public boolean isProductoAñadido(long id) {
+        for (Producto p: productosAñadidos)
+            if (p.getId() == id)
+                return true;
+
+        return false;
     }
 }

@@ -103,9 +103,6 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
     }
 
     public void addProduct (View view) {
-        //Pasamos a la activity donde seleccionar los productos para la lista
-        //AddProductTabbedActivity
-        //HAY QUE PASAR este objeto (this) a esta activity
         Intent intent = new Intent(this, AddProductTabbedActivity.class);
         startActivity(intent);
     }

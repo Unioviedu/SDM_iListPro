@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -57,12 +58,14 @@ public class ProductoAddedNewListItemAdapter extends BaseAdapter {
         TextView nombreLista = (TextView) rowView.findViewById(R.id.textViewNombreProductoAddedItem);
         TextView precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioProductoAddedItem);
         TextView nombreSupermercado = (TextView) rowView.findViewById(R.id.textViewSupermercadoProductoAddedItem);
+        EditText numeroProducto = (EditText) rowView.findViewById(R.id.editNumeroProductos);
         ImageButton addButton = (ImageButton) rowView.findViewById(R.id.buttonDeleteProduct);
 
         Producto item = this.items.get(i);
         nombreLista.setText(item.getNombre());
         precioLista.setText(Utilidades.precio(item.getPrecio()));
         nombreSupermercado.setText(item.getSupermercado());
+        numeroProducto.setText("1");
 
         addButton.setTag(item.getId());
 

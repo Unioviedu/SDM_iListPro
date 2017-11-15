@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.eduardomartinez.sdm_ilistpro.R;
+import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public class ListaCompraItemAdapter extends BaseAdapter {
 
         ListaCompra item = this.items.get(i);
         nombreLista.setText(item.getNombre());
-        precioLista.setText(String.valueOf(item.getImporteTotal()));
+        precioLista.setText(Utilidades.precio(item.getImporteTotal()));
 
         return rowView;
     }

@@ -46,8 +46,9 @@ public class ListProductsFragment extends Fragment implements SearchView.OnQuery
         List<Producto> productos = new LinkedList<>();
 
         for (Map.Entry<Long, Producto> entry: GestorNewListaCompra.getInstance().getTodosProductos().entrySet()) {
-            if (tipo == entry.getValue().getCategoria() || tipo == TiposProducto.TODO)
-                productos.add(entry.getValue());
+            if (!GestorNewListaCompra.getInstance().isProductoAñadido(entry.getValue().getId()))
+                if (tipo == entry.getValue().getCategoria() || tipo == TiposProducto.TODO)
+                    productos.add(entry.getValue());
         }
 
         if (filtro) {
