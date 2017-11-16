@@ -8,6 +8,7 @@ import com.example.eduardomartinez.sdm_ilistpro.TiposProducto;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.DaoMaster;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.DaoSession;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.JoinProductoConListaCompra;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.JoinProductoConListaCompraDao;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompraDao;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
@@ -31,15 +32,22 @@ public class DatabaseORM {
     private ProductoDao productoDao;
     private ListaCompraDao listaCompraDao;
     private SupermercadoDao supermercadoDao;
+    private JoinProductoConListaCompraDao productoConListaCompraDao;
 
     private DatabaseORM(Application app) {
         this.app = app;
+<<<<<<< Updated upstream
         helper = new DaoMaster.DevOpenHelper(app, "prueba3.db", null);
+=======
+        helper = new DaoMaster.DevOpenHelper(app, "prueba5.db", null);
+>>>>>>> Stashed changes
         daoMaster = new DaoMaster(helper.getWritableDatabase());
         daoSession = daoMaster.newSession();
         productoDao = daoSession.getProductoDao();
         listaCompraDao = daoSession.getListaCompraDao();
         supermercadoDao = daoSession.getSupermercadoDao();
+        productoConListaCompraDao = daoSession.getJoinProductoConListaCompraDao();
+
         //inicializarProductos();
         //inicializarListasCompra();
     }
@@ -70,15 +78,17 @@ public class DatabaseORM {
 
     private void inicializarListasCompra(){
         List<Producto> productos = productoDao.loadAll();
-        ListaCompra lista = new ListaCompra(null, "prueba2", null);
+        ListaCompra lista = new ListaCompra(null, "prueba3", null);
         lista.addProductos(productos);
         listaCompraDao.insert(lista);
     }
 
     public List<ListaCompra> getAllListaCompra(){
         List<ListaCompra> listas = listaCompraDao.loadAll();
-        for(ListaCompra l: listas)
+        for(ListaCompra l: listas) {
             l.getProductos();
+            Log.d("Prueba","Lista"+l.getId()+productoConListaCompraDao.queryBuilder().where(JoinProductoConListaCompraDao.Properties.ListaCompra_id.eq(l.getId())).list().toString());
+        }
         return listas;
     }
 
@@ -87,6 +97,10 @@ public class DatabaseORM {
     }
 
     public void saveListaCompra(ListaCompra lista) {
+        Log.d("Prueba",lista.getProductos().toString());
+        for(Producto p: lista.getProductos()){
+            productoConListaCompraDao.insert(new JoinProductoConListaCompra(null, p.getId(), lista.getId(), false));
+        }
         listaCompraDao.insert(lista);
     }
 
