@@ -15,6 +15,7 @@ import android.widget.Switch;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoAddedItemAdapter;
+import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
 
@@ -36,7 +37,7 @@ public class SavedListActivity extends AppCompatActivity implements SearchView.O
         setTitle(listaCompraActual.getNombre());
 
         buscarComponentes();
-        rellenarLista(listaCompraActual.getProductos());
+        mostrarComprados(false);
     }
 
     public boolean onCreateOptionsMenu (final Menu menu) {
@@ -72,6 +73,7 @@ public class SavedListActivity extends AppCompatActivity implements SearchView.O
 
     public void comprarProducto(View view) {
         Producto producto = listaCompraActual.comprarProducto((long) view.getTag());
+        DatabaseORM.getInstance().marcarComprado(listaCompraActual.getId(), producto.getId(), true);
         Utilidades.crearDialogoSencillo(this, producto.getNombre(),
                 "Has comprado este producto correctamente, puedes verlo activando la opcion Productos comprados de arriba");
         mostrarComprados(false);
@@ -81,7 +83,7 @@ public class SavedListActivity extends AppCompatActivity implements SearchView.O
         List<Producto> listaTemp = new LinkedList<>();
         listaTemp.addAll(listaCompraActual.getProductos());
 
-        rellenarLista(Utilidades.filterProductoComprado(listaTemp, comprado));
+        rellenarLista(Utilidades.filterProductoComprado(listaCompraActual.getId(), listaTemp, comprado));
     }
 
     private void buscarComponentes() {

@@ -2,6 +2,8 @@ package com.example.eduardomartinez.sdm_ilistpro.database.model;
 
 import android.util.Log;
 
+import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinEntity;
@@ -187,8 +189,10 @@ public class ListaCompra implements Serializable {
 
     public double getImporteTotal() {
         double importe = 0.0;
-        for (Producto p: productos)
-            importe += p.getPrecio();
+        for (Producto p: productos) {
+            int cantidad = DatabaseORM.getInstance().getCantidadProducto(id, p.getId());
+            importe += p.getPrecio() * cantidad;
+        }
 
         return importe;
     }
