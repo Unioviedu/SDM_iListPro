@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.eduardomartinez.sdm_ilistpro.activities.ListProductsFragment;
 import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
@@ -24,18 +25,8 @@ public class Utilidades {
         return precio+" €";
     }
 
-    public static void  crearDialogoSencillo(Context context, String titulo, String mensaje) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-        builder.setTitle(titulo)
-                .setMessage(mensaje)
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).show();
+    public static void crearToast(Context context, String titulo, String mensaje) {
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
     }
 
     public static List<ListaCompra> filterListaCompra(List<ListaCompra> items, String text) {

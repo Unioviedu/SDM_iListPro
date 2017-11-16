@@ -74,7 +74,7 @@ public class SavedListActivity extends AppCompatActivity implements SearchView.O
     public void comprarProducto(View view) {
         Producto producto = listaCompraActual.comprarProducto((long) view.getTag());
         DatabaseORM.getInstance().marcarComprado(listaCompraActual.getId(), producto.getId(), true);
-        Utilidades.crearDialogoSencillo(this, producto.getNombre(),
+        Utilidades.crearToast(this, producto.getNombre(),
                 "Has comprado este producto correctamente, puedes verlo activando la opcion Productos comprados de arriba");
         mostrarComprados(false);
     }
