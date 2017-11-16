@@ -36,11 +36,8 @@ public class DatabaseORM {
 
     private DatabaseORM(Application app) {
         this.app = app;
-<<<<<<< Updated upstream
-        helper = new DaoMaster.DevOpenHelper(app, "prueba3.db", null);
-=======
         helper = new DaoMaster.DevOpenHelper(app, "prueba5.db", null);
->>>>>>> Stashed changes
+
         daoMaster = new DaoMaster(helper.getWritableDatabase());
         daoSession = daoMaster.newSession();
         productoDao = daoSession.getProductoDao();
