@@ -28,8 +28,8 @@ public class ListaCompra implements Serializable {
     private Integer imagen;
     @ToMany()
     @JoinEntity(entity = JoinProductoConListaCompra.class,
-    sourceProperty = "producto_id",
-    targetProperty = "listaCompra_id"
+    sourceProperty = "listaCompra_id",
+    targetProperty = "producto_id"
     )
     private List<Producto> productos = new LinkedList<>();
 

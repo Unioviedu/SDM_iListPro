@@ -89,7 +89,7 @@ public class GestorNewListaCompra {
         productosAñadidos.addAll(listaCompraEditar.getProductos());
 
         for (Producto p: productosAñadidos)
-            cantidadProductos.put(p.getId(), 1);
+            cantidadProductos.put(p.getId(), DatabaseORM.getInstance().getCantidadProducto(listaCompraEditar.getId(), p.getId()));
     }
 
     public boolean isProductoAñadido(long id) {

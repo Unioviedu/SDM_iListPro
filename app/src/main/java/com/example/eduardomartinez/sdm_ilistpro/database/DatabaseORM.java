@@ -3,6 +3,7 @@ package com.example.eduardomartinez.sdm_ilistpro.database;
 import android.app.Application;
 import android.util.Log;
 
+import com.example.eduardomartinez.sdm_ilistpro.GestorNewListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.Supermercado;
 import com.example.eduardomartinez.sdm_ilistpro.TiposProducto;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.DaoMaster;
@@ -36,7 +37,7 @@ public class DatabaseORM {
 
     private DatabaseORM(Application app) {
         this.app = app;
-        helper = new DaoMaster.DevOpenHelper(app, "prueba5.db", null);
+        helper = new DaoMaster.DevOpenHelper(app, "prueba20.db", null);
 
         daoMaster = new DaoMaster(helper.getWritableDatabase());
         daoSession = daoMaster.newSession();
@@ -45,7 +46,7 @@ public class DatabaseORM {
         supermercadoDao = daoSession.getSupermercadoDao();
         productoConListaCompraDao = daoSession.getJoinProductoConListaCompraDao();
 
-        //inicializarProductos();
+        inicializarProductos();
         //inicializarListasCompra();
     }
 
@@ -59,9 +60,6 @@ public class DatabaseORM {
         return db;
     }
 
-
-
-
     private void inicializarProductos(){
        productoDao.insert(new Producto(null, Supermercado.ALIMERKA, "Carne1", 10.0, null, null, TiposProducto.CARNE));
        productoDao.insert(new Producto(null, Supermercado.ALIMERKA, "Carne2", 15.0, null, null, TiposProducto.CARNE));
@@ -73,18 +71,11 @@ public class DatabaseORM {
        productoDao.insert(new Producto(null, Supermercado.MAS_MAS, "Verdura2", 1.75, null, null, TiposProducto.VERDURA));
     }
 
-    private void inicializarListasCompra(){
-        List<Producto> productos = productoDao.loadAll();
-        ListaCompra lista = new ListaCompra(null, "prueba3", null);
-        lista.addProductos(productos);
-        listaCompraDao.insert(lista);
-    }
-
     public List<ListaCompra> getAllListaCompra(){
         List<ListaCompra> listas = listaCompraDao.loadAll();
         for(ListaCompra l: listas) {
+            l.resetProductos();
             l.getProductos();
-            Log.d("Prueba","Lista"+l.getId()+productoConListaCompraDao.queryBuilder().where(JoinProductoConListaCompraDao.Properties.ListaCompra_id.eq(l.getId())).list().toString());
         }
         return listas;
     }
@@ -94,19 +85,32 @@ public class DatabaseORM {
     }
 
     public void saveListaCompra(ListaCompra lista) {
-        Log.d("Prueba",lista.getProductos().toString());
-        for(Producto p: lista.getProductos()){
-            productoConListaCompraDao.insert(new JoinProductoConListaCompra(null, p.getId(), lista.getId(), false));
-        }
         listaCompraDao.insert(lista);
+
+        for(Producto p: lista.getProductos()){
+            productoConListaCompraDao.insert(new JoinProductoConListaCompra(null, p.getId(), lista.getId(), false, GestorNewListaCompra.getInstance().cantidadProducto(p.getId())));
+        }
+        lista.resetProductos();
+        lista.getProductos();
+
     }
 
     public void updateListaCompra(ListaCompra lista) {
-        listaCompraDao.update(lista);
+        productoConListaCompraDao.queryBuilder().where(JoinProductoConListaCompraDao.Properties.ListaCompra_id.eq(lista.getId())).buildDelete().executeDeleteWithoutDetachingEntities();
+        for(Producto p: lista.getProductos()){
+            productoConListaCompraDao.insert(new JoinProductoConListaCompra(null, p.getId(), lista.getId(), false, GestorNewListaCompra.getInstance().cantidadProducto(p.getId())));
+        }
     }
 
-    public List<Producto> getProductosDeListaCompra(Long id){
-        return null;
+    public void marcarComprado(Long listaId, Long productoId){
+        //TODO productoConListaCompraDao.queryBuilder().where(JoinProductoConListaCompraDao.Properties.Producto_id.eq(productoId)).where(JoinProductoConListaCompraDao.Properties.ListaCompra_id.eq(listaId)).list().get(0);
+    }
+
+    public Integer getCantidadProducto(Long listaId, Long productoId){
+        return productoConListaCompraDao.queryBuilder()
+                .where(JoinProductoConListaCompraDao.Properties.Producto_id.eq(productoId))
+                .where(JoinProductoConListaCompraDao.Properties.ListaCompra_id.eq(listaId))
+                .list().get(0).getCantidad();
     }
 
 

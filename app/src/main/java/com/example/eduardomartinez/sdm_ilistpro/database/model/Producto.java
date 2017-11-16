@@ -2,9 +2,13 @@ package com.example.eduardomartinez.sdm_ilistpro.database.model;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.JoinEntity;
+import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.io.Serializable;
+import java.util.List;
+
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
@@ -24,6 +28,20 @@ public class Producto implements Serializable {
     private Integer foto;
     private Long codigo_barra;
     private Integer categoria;
+    @ToMany()
+    @JoinEntity(entity = JoinProductoConListaCompra.class,
+            sourceProperty = "producto_id",
+            targetProperty = "listaCompra_id"
+    )
+    private List<ListaCompra> listasCompra;
+
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+    /** Used for active entity operations. */
+    @Generated(hash = 2021018510)
+    private transient ProductoDao myDao;
 
 
     public Producto() {
@@ -130,5 +148,83 @@ public class Producto implements Serializable {
 
     public String getSupermercado() {
         return this.supermercado;
+    }
+
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 869940023)
+    public List<ListaCompra> getListasCompra() {
+        if (listasCompra == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ListaCompraDao targetDao = daoSession.getListaCompraDao();
+            List<ListaCompra> listasCompraNew = targetDao
+                    ._queryProducto_ListasCompra(id);
+            synchronized (this) {
+                if (listasCompra == null) {
+                    listasCompra = listasCompraNew;
+                }
+            }
+        }
+        return listasCompra;
+    }
+
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 352377749)
+    public synchronized void resetListasCompra() {
+        listasCompra = null;
+    }
+
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
+    }
+
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 1942392019)
+    public void refresh() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.refresh(this);
+    }
+
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 713229351)
+    public void update() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.update(this);
+    }
+
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1100354616)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getProductoDao() : null;
     }
 }
