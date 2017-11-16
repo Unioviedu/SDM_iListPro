@@ -34,14 +34,14 @@ public class DatabaseORM {
 
     private DatabaseORM(Application app) {
         this.app = app;
-        helper = new DaoMaster.DevOpenHelper(app, "prueba2.db", null);
+        helper = new DaoMaster.DevOpenHelper(app, "prueba3.db", null);
         daoMaster = new DaoMaster(helper.getWritableDatabase());
         daoSession = daoMaster.newSession();
         productoDao = daoSession.getProductoDao();
         listaCompraDao = daoSession.getListaCompraDao();
         supermercadoDao = daoSession.getSupermercadoDao();
-        inicializarProductos();
-        inicializarListasCompra();
+        //inicializarProductos();
+        //inicializarListasCompra();
     }
 
     public static DatabaseORM getInstance(Application app){
