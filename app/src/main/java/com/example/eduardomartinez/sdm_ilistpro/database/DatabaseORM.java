@@ -102,8 +102,13 @@ public class DatabaseORM {
         }
     }
 
-    public void marcarComprado(Long listaId, Long productoId){
-        //TODO productoConListaCompraDao.queryBuilder().where(JoinProductoConListaCompraDao.Properties.Producto_id.eq(productoId)).where(JoinProductoConListaCompraDao.Properties.ListaCompra_id.eq(listaId)).list().get(0);
+    public void marcarComprado(Long listaId, Long productoId, boolean comprado){
+        JoinProductoConListaCompra p = productoConListaCompraDao.queryBuilder()
+                .where(JoinProductoConListaCompraDao.Properties.Producto_id.eq(productoId))
+                .where(JoinProductoConListaCompraDao.Properties.ListaCompra_id.eq(listaId))
+                .list().get(0);
+        p.setComprado(comprado);
+        productoConListaCompraDao.update(p);
     }
 
     public Integer getCantidadProducto(Long listaId, Long productoId){
@@ -111,6 +116,12 @@ public class DatabaseORM {
                 .where(JoinProductoConListaCompraDao.Properties.Producto_id.eq(productoId))
                 .where(JoinProductoConListaCompraDao.Properties.ListaCompra_id.eq(listaId))
                 .list().get(0).getCantidad();
+    }
+
+    public List<Producto> getProductosSupermercado(String supermercado){
+        return productoDao.queryBuilder()
+                .where(ProductoDao.Properties.Supermercado.eq(supermercado))
+                .list();
     }
 
 
