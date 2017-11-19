@@ -98,7 +98,7 @@ public class AddProductTabbedActivity extends AppCompatActivity {
     public void addProductItem (View view) {
         Producto producto = GestorNewListaCompra.getInstance().addProducto((long)view.getTag());
 
-        Utilidades.crearDialogoSencillo(this, producto.getNombre(),
+        Utilidades.crearToast(this, producto.getNombre(),
                 "Se ha añadido correctamente por el precio de "+ Utilidades.precio(producto.getPrecio()));
     }
 

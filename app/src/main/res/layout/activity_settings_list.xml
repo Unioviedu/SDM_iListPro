@@ -7,7 +7,11 @@
     tools:context="com.example.eduardomartinez.sdm_ilistpro.activities.SettingsListActivity">
 
     <Button
+<<<<<<< HEAD
         android:id="@+id/localizameButton"
+=======
+        android:id="@+id/button2"
+>>>>>>> 6a9fa523faf25bc3d5b991ac62b49b1f8c73b413
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -15,6 +19,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:onClick="localizame"
+<<<<<<< HEAD
         android:text="Localizame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,4 +30,11 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent" />
+=======
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+>>>>>>> 6a9fa523faf25bc3d5b991ac62b49b1f8c73b413
 </android.support.constraint.ConstraintLayout>

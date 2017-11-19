@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         db = DatabaseORM.getInstance(getApplication());
         listaListaCompra = db.getAllListaCompra();
-        Log.d("Prueba",listaListaCompra.toString());
         buscarComponentes();
 
         rellenarLista(listaListaCompra);
