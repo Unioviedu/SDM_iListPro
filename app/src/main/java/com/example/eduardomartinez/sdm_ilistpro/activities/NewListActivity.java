@@ -139,7 +139,8 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
     }
 
     private void moverSettingsActivity () {
-
+        Intent intent = new Intent(this, SettingsListActivity.class);
+        startActivity(intent);
     }
 
     private void moverListShoppingSavedActivity() {

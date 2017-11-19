@@ -193,6 +193,10 @@ public class ListaCompra implements Serializable {
         return importe;
     }
 
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1456840910)
     public void __setDaoSession(DaoSession daoSession) {
