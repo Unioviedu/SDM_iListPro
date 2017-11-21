@@ -32,12 +32,8 @@
         <activity
             android:name=".activities.SavedListActivity"
             android:windowSoftInputMode="adjustPan" />
-<<<<<<< HEAD
         <activity
             android:name=".activities.SettingsListActivity"/>
-=======
-        <activity android:name=".activities.SettingsListActivity"></activity>
->>>>>>> 6a9fa523faf25bc3d5b991ac62b49b1f8c73b413
     </application>
 
 </manifest>
