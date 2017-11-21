@@ -37,7 +37,11 @@ public class DatabaseORM {
 
     private DatabaseORM(Application app) {
         this.app = app;
+<<<<<<< HEAD
+        helper = new DaoMaster.DevOpenHelper(app, "prueba7.db", null);
+=======
         helper = new DaoMaster.DevOpenHelper(app, "prueba20.db", null);
+>>>>>>> 6a9fa523faf25bc3d5b991ac62b49b1f8c73b413
         daoMaster = new DaoMaster(helper.getWritableDatabase());
         daoSession = daoMaster.newSession();
         productoDao = daoSession.getProductoDao();
@@ -73,7 +77,10 @@ public class DatabaseORM {
     public List<ListaCompra> getAllListaCompra(){
         List<ListaCompra> listas = listaCompraDao.loadAll();
         for(ListaCompra l: listas) {
+<<<<<<< HEAD
+=======
             l.resetProductos();
+>>>>>>> 6a9fa523faf25bc3d5b991ac62b49b1f8c73b413
             l.getProductos();
         }
         return listas;
