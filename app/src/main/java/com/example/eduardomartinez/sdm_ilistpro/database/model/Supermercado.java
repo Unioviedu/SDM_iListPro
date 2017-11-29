@@ -79,8 +79,6 @@ public class Supermercado implements Serializable{
 
     @Override
     public String toString() {
-        return "Supermercado{" +
-                "nombre='" + nombre + '\'' +
-                '}';
+        return nombre;
     }
 }

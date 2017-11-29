@@ -1,6 +1,8 @@
 package com.example.eduardomartinez.sdm_ilistpro.activities;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -11,15 +13,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.eduardomartinez.sdm_ilistpro.GestorNewListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.R;
+import com.example.eduardomartinez.sdm_ilistpro.TiposPreferencias;
+import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.Supermercado;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import android.widget.Button;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class SettingsListActivity extends AppCompatActivity
         implements GoogleApiClient.OnConnectionFailedListener,
@@ -28,19 +43,23 @@ public class SettingsListActivity extends AppCompatActivity
     private static final int ERROR = -1;
     private static final int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 1;
 
-    protected Button mLocationButton;
     private static final int PETICION_PERMISO_LOCALIZACION = 101;
 
     protected Location ubicacion;
     private GoogleApiClient cliente;
     private LocationRequest mLocationRequest;
 
+    private Spinner spinnerSupermercados;
+    private Switch soloUnSupermercado;
+    private Switch miLocalizacion;
+    private EditText nuevaLocalizacion;
+
+    private SharedPreferences preferences;
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_list);
-
-        mLocationButton = (Button) findViewById(R.id.localizameButton);
 
         pedirPermisos();
 
@@ -52,13 +71,68 @@ public class SettingsListActivity extends AppCompatActivity
                     .build();
         }
 
+        preferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        miLocalizacion = (Switch) findViewById(R.id.switchLocalizacion);
+        spinnerSupermercados = (Spinner) findViewById(R.id.spinnerSupermercado);
+        nuevaLocalizacion = (EditText) findViewById(R.id.editTextNuevaLocalizacion);
+        llenarSpinner();
+        soloUnSupermercado = (Switch) findViewById(R.id.switchUnSupermercado);
+        restablecerPreferencias();
+        añadirFunciones();
         crearLocationRequest();
+    }
+
+    private void restablecerPreferencias() {
+        miLocalizacion.setChecked(preferences.getBoolean(TiposPreferencias.MiLocalizacion, true));
+        nuevaLocalizacion.setEnabled(!miLocalizacion.isChecked());
+        soloUnSupermercado.setChecked(preferences.getBoolean(TiposPreferencias.SoloUnSupermercado, false));
+        spinnerSupermercados.setSelection(preferences.getInt(TiposPreferencias.SupermercadoSeleccionado, 0));
+        spinnerSupermercados.setEnabled(soloUnSupermercado.isChecked());
+    }
+
+    private void añadirFunciones() {
+        soloUnSupermercado.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                GestorNewListaCompra.getInstance().setSoloUnSupermercado(isChecked);
+                seleccionarSupermercado();
+                spinnerSupermercados.setEnabled(isChecked);
+            }
+        });
+
+        miLocalizacion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                nuevaLocalizacion.setEnabled(!isChecked);
+            }
+        });
+
+        spinnerSupermercados.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> spn, android.view.View v, int posicion, long id) {
+                        seleccionarSupermercado();
+                    }
+                    public void onNothingSelected(AdapterView<?> spn) {
+                    }
+                });
+    }
+
+    public void seleccionarSupermercado() {
+        Supermercado supermercado = (Supermercado) spinnerSupermercados.getSelectedItem();
+        GestorNewListaCompra.getInstance().setSupermercadoSeleccionado(supermercado);
     }
 
     @Override
     public void onStart(){
         super.onStart();
         cliente.connect();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        final SharedPreferences.Editor mEditor = preferences.edit();
+        mEditor.putBoolean(TiposPreferencias.MiLocalizacion, miLocalizacion.isChecked());
+        mEditor.putBoolean(TiposPreferencias.SoloUnSupermercado, soloUnSupermercado.isChecked());
+        mEditor.putInt(TiposPreferencias.SupermercadoSeleccionado, spinnerSupermercados.getSelectedItemPosition());
+        mEditor.commit();
     }
 
     @Override
@@ -145,5 +219,15 @@ public class SettingsListActivity extends AppCompatActivity
         Toast.makeText(this,"Nuestra ubicación es: [Latitud: "+ubicacion.getLatitude()+"; Longitud: "+ubicacion.getLongitude()+"]", Toast.LENGTH_LONG).show();
 
         return ubicacion;
+    }
+
+    private void llenarSpinner() {
+        List<Supermercado> supermercadoList = new LinkedList<>();
+        supermercadoList = DatabaseORM.getInstance().getSuperMercadosCercanos(0.0, 0.0);
+
+        ArrayAdapter<Supermercado> adapter =
+                new ArrayAdapter<Supermercado>(this, R.layout.support_simple_spinner_dropdown_item, supermercadoList);
+
+        spinnerSupermercados.setAdapter(adapter);
     }
 }

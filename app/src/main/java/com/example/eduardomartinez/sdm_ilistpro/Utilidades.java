@@ -10,6 +10,7 @@ import com.example.eduardomartinez.sdm_ilistpro.activities.ListProductsFragment;
 import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.Supermercado;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -61,6 +62,30 @@ public class Utilidades {
         }
 
         return items;
+    }
+
+    public static List<Producto> filterProductoBySupermercado(List<Producto> items) {
+        List<Supermercado> supermercados = new LinkedList<>();
+        boolean soloUnSupermercado = GestorNewListaCompra.getInstance().isSoloUnSupermercado();
+
+        if (!soloUnSupermercado)
+            supermercados = DatabaseORM.getInstance().getSuperMercadosCercanos(0.0, 0.0);
+        else
+            supermercados.add(GestorNewListaCompra.getInstance().getSupermercadoSeleccionado());
+
+        List<Producto> productosFiltrados = new LinkedList<>();
+        List<String> nombreSupermercados = new LinkedList<>();
+
+        for (Supermercado sp: supermercados) {
+            nombreSupermercados.add(sp.getNombre());
+        }
+
+        for (Producto p: items) {
+            if (nombreSupermercados.contains(p.getSupermercado()))
+                productosFiltrados.add(p);
+        }
+
+        return productosFiltrados;
     }
 
     public static List<Producto> filterProductoComprado(long idLista, List<Producto> items, boolean comprado) {

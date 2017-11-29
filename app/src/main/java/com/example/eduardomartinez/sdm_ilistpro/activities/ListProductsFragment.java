@@ -3,6 +3,7 @@ package com.example.eduardomartinez.sdm_ilistpro.activities;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,7 @@ public class ListProductsFragment extends Fragment implements SearchView.OnQuery
         }
 
         Utilidades.orderProductos(productos);
+        productos = Utilidades.filterProductoBySupermercado(productos);
 
         if (filtro) {
             productos = Utilidades.filterProducto(productos, text);

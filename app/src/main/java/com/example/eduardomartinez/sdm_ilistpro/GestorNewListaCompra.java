@@ -3,6 +3,7 @@ package com.example.eduardomartinez.sdm_ilistpro;
 import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.Supermercado;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -22,6 +23,9 @@ public class GestorNewListaCompra {
     private HashMap<Long, Integer> cantidadProductos;
 
     private HashMap<Long, Producto> todosProductos;
+
+    private boolean soloUnSupermercado = false;
+    private Supermercado supermercadoSeleccionado;
 
     private GestorNewListaCompra() {
         productosAñadidos = new LinkedList<>();
@@ -105,5 +109,21 @@ public class GestorNewListaCompra {
             return cantidadProductos.get(id);
 
         return 1;
+    }
+
+    public boolean isSoloUnSupermercado() {
+        return soloUnSupermercado;
+    }
+
+    public void setSoloUnSupermercado(boolean soloUnSupermercado) {
+        this.soloUnSupermercado = soloUnSupermercado;
+    }
+
+    public Supermercado getSupermercadoSeleccionado() {
+        return supermercadoSeleccionado;
+    }
+
+    public void setSupermercadoSeleccionado(Supermercado supermercadoSeleccionado) {
+        this.supermercadoSeleccionado = supermercadoSeleccionado;
     }
 }
