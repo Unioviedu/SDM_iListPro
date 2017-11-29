@@ -19,6 +19,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import android.widget.Button;
 
 public class SettingsListActivity extends AppCompatActivity
         implements GoogleApiClient.OnConnectionFailedListener,
@@ -27,6 +28,7 @@ public class SettingsListActivity extends AppCompatActivity
     private static final int ERROR = -1;
     private static final int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 1;
 
+    protected Button mLocationButton;
     private static final int PETICION_PERMISO_LOCALIZACION = 101;
 
     protected Location ubicacion;
@@ -36,6 +38,9 @@ public class SettingsListActivity extends AppCompatActivity
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings_list);
+
+        mLocationButton = (Button) findViewById(R.id.localizameButton);
 
         pedirPermisos();
 
@@ -133,8 +138,12 @@ public class SettingsListActivity extends AppCompatActivity
             // for ActivityCompat#requestPermissions for more details.
             return null;
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(cliente, mLocationRequest, (LocationListener) this);
+
+        //LocationServices.FusedLocationApi.requestLocationUpdates(cliente, mLocationRequest, (LocationListener) this);
+        ubicacion = LocationServices.FusedLocationApi.getLastLocation(cliente);
         Toast.makeText(this,"Empezamos a actualizar la localización!",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Nuestra ubicación es: [Latitud: "+ubicacion.getLatitude()+"; Longitud: "+ubicacion.getLongitude()+"]", Toast.LENGTH_LONG).show();
+
         return ubicacion;
     }
 }

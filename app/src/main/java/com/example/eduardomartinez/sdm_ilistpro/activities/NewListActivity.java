@@ -3,7 +3,6 @@ package com.example.eduardomartinez.sdm_ilistpro.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,7 +74,7 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
         Producto producto = GestorNewListaCompra.getInstance().deleteProducto((long)view.getTag());
         rellenarLista();
 
-        Utilidades.crearDialogoSencillo(this, producto.getNombre(),
+        Utilidades.crearToast(this, producto.getNombre(),
                 "Se ha borrado correctamente de tu lista de la compra");
     }
 
@@ -115,12 +114,12 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
 
     public void saveList (View v) {
         if (nombreLista.getText().toString().isEmpty()) {
-            Utilidades.crearDialogoSencillo(this, "Dale un nombre a tu lista",
+            Utilidades.crearToast(this, "Dale un nombre a tu lista",
                     "Es necesario que le asignes un nombre a la lista para poder guardarla");
         }
 
         else if (GestorNewListaCompra.getInstance().getProductosAñadidos().isEmpty()) {
-            Utilidades.crearDialogoSencillo(this, "No has añadido ningun producto",
+            Utilidades.crearToast(this, "No has añadido ningun producto",
                     "Es necesario que añadas por lo menos un producto a tu lista para gaurdarla");
         }
 

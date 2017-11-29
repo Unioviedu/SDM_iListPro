@@ -117,6 +117,13 @@ public class DatabaseORM {
                 .list().get(0).getCantidad();
     }
 
+    public boolean isComprado(Long listaId, Long productoId) {
+        return productoConListaCompraDao.queryBuilder()
+                .where(JoinProductoConListaCompraDao.Properties.Producto_id.eq(productoId))
+                .where(JoinProductoConListaCompraDao.Properties.ListaCompra_id.eq(listaId))
+                .list().get(0).getComprado();
+    }
+
     public List<Producto> getProductosSupermercado(String supermercado){
         return productoDao.queryBuilder()
                 .where(ProductoDao.Properties.Supermercado.eq(supermercado))
