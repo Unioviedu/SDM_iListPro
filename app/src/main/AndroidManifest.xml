@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -32,8 +34,8 @@
         <activity
             android:name=".activities.SavedListActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".activities.SettingsListActivity"/>
+        <activity android:name=".activities.SettingsListActivity" />
+        <activity android:name=".activities.barcode.BarcodeCaptureActivity"></activity>
     </application>
 
 </manifest>

@@ -15,6 +15,7 @@ import android.widget.Switch;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoAddedItemAdapter;
+import com.example.eduardomartinez.sdm_ilistpro.activities.barcode.BarcodeCaptureActivity;
 import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
@@ -108,7 +109,8 @@ public class SavedListActivity extends AppCompatActivity implements SearchView.O
     }
 
     public void escanear(View view) {
-        //AQUI LOGICA PARA ESCANEAR Y ELIMINAR PRODUCTO
+        Intent intent = new Intent(this, BarcodeCaptureActivity.class);
+        startActivity(intent);
     }
 
     @Override
