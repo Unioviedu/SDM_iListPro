@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.eduardomartinez.sdm_ilistpro.R;
@@ -55,12 +57,14 @@ public class ListaCompraItemAdapter extends BaseAdapter {
 
         TextView nombreLista = (TextView) rowView.findViewById(R.id.textViewNombreListaItem);
         TextView precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioListaItem);
+        ImageButton button = (ImageButton) rowView.findViewById(R.id.buttonDeleteList);
 
         ListaCompra item = this.items.get(i);
 
         boolean listaCompletada = DatabaseORM.getInstance().isListaAcabada(item.getId());
         nombreLista.setText(listaCompletada ? item.getNombre()+ " (COMPLETADA)" : item.getNombre());
         precioLista.setText(Utilidades.precio(item.getImporteTotal()));
+        button.setTag(item.getId());
 
         return rowView;
     }

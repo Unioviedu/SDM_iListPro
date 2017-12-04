@@ -99,6 +99,17 @@ public class DatabaseORM {
 
     }
 
+    public void deleteListaCompra(ListaCompra lista) {
+
+        for (Producto p: lista.getProductos()) {
+            productoConListaCompraDao.queryBuilder()
+                    .where(JoinProductoConListaCompraDao.Properties.ListaCompra_id.eq(lista.getId()))
+                    .buildDelete();
+        }
+
+        listaCompraDao.delete(lista);
+    }
+
     public void updateListaCompra(ListaCompra lista) {
         productoConListaCompraDao.queryBuilder().where(JoinProductoConListaCompraDao.Properties.ListaCompra_id.eq(lista.getId())).buildDelete().executeDeleteWithoutDetachingEntities();
         for(Producto p: lista.getProductos()){

@@ -1,6 +1,8 @@
 package com.example.eduardomartinez.sdm_ilistpro.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -74,6 +76,37 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         //NewListActivity
         Intent intent = new Intent(this, NewListActivity.class);
         startActivity(intent);
+    }
+
+    public void deleteListItem(View view) {
+        final long idLista = (long) view.getTag();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Quieres borrar esta lista?, la acción es permanente")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        borrarLista(idLista);
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+        // Create the AlertDialog object and return it
+        builder.create().show();
+    }
+
+    public void borrarLista (long idLista) {
+        ListaCompra lista = new ListaCompra();
+
+        for (ListaCompra l: listaListaCompra)
+            if (l.getId() == idLista)
+                lista = l;
+
+        DatabaseORM.getInstance().deleteListaCompra(lista);
+        listaListaCompra = DatabaseORM.getInstance().getAllListaCompra();
+        rellenarLista(listaListaCompra);
     }
 
     @Override
