@@ -133,6 +133,7 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
                 DatabaseORM.getInstance().updateListaCompra(newListaCompra);
             }
 
+            SettingsListActivity.preferenciasPorDefecto();
             moverListShoppingSavedActivity();
         }
     }

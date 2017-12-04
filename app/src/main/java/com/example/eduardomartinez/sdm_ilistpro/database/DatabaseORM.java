@@ -38,7 +38,7 @@ public class DatabaseORM {
 
     private DatabaseORM(Application app) {
         this.app = app;
-        helper = new DaoMaster.DevOpenHelper(app, "prueba21.db", null);
+        helper = new DaoMaster.DevOpenHelper(app, "prueba001.db", null);
         daoMaster = new DaoMaster(helper.getWritableDatabase());
         daoSession = daoMaster.newSession();
         productoDao = daoSession.getProductoDao();
@@ -61,14 +61,18 @@ public class DatabaseORM {
     }
 
     private void inicializarProductos(){
-       productoDao.insert(new Producto(null, SupermercadoNombres.ALIMERKA, "Carne1", 10.0, null, null, TiposProducto.CARNE));
-       productoDao.insert(new Producto(null, SupermercadoNombres.ALIMERKA, "Carne2", 15.0, null, null, TiposProducto.CARNE));
-       productoDao.insert(new Producto(null, SupermercadoNombres.ALIMERKA, "Pescado1", 5.0, null, null, TiposProducto.PESCADO));
-       productoDao.insert(new Producto(null, SupermercadoNombres.MERCADONA, "Pescado1", 5.0, null, null, TiposProducto.PESCADO));
-       productoDao.insert(new Producto(null, SupermercadoNombres.MERCADONA, "Fruta", 1.5, null, null, TiposProducto.FRUTA));
-       productoDao.insert(new Producto(null, SupermercadoNombres.CORTE_INGLES, "Fruta", 3.5, null, null, TiposProducto.FRUTA));
-       productoDao.insert(new Producto(null, SupermercadoNombres.MAS_MAS, "Verdura", 2.5, null, null, TiposProducto.VERDURA));
-       productoDao.insert(new Producto(null, SupermercadoNombres.MAS_MAS, "Verdura2", 1.75, null, null, TiposProducto.VERDURA));
+        List<Producto> productos = getAllProductos();
+
+        if (productos.size() == 0) {
+            productoDao.insert(new Producto(null, SupermercadoNombres.ALIMERKA, "Carne1", 10.0, null, "0001", TiposProducto.CARNE));
+            productoDao.insert(new Producto(null, SupermercadoNombres.ALIMERKA, "Carne2", 15.0, null, "0002", TiposProducto.CARNE));
+            productoDao.insert(new Producto(null, SupermercadoNombres.ALIMERKA, "Pescado1", 5.0, null, "0003", TiposProducto.PESCADO));
+            productoDao.insert(new Producto(null, SupermercadoNombres.MERCADONA, "Pescado1", 5.0, null, "0004", TiposProducto.PESCADO));
+            productoDao.insert(new Producto(null, SupermercadoNombres.MERCADONA, "Fruta", 1.5, null, "0005", TiposProducto.FRUTA));
+            productoDao.insert(new Producto(null, SupermercadoNombres.CORTE_INGLES, "Fruta", 3.5, null, "0006", TiposProducto.FRUTA));
+            productoDao.insert(new Producto(null, SupermercadoNombres.MAS_MAS, "Verdura", 2.5, null, "0007", TiposProducto.VERDURA));
+            productoDao.insert(new Producto(null, SupermercadoNombres.MAS_MAS, "Verdura2", 1.75, null, "0008", TiposProducto.VERDURA));
+        }
     }
 
     public List<ListaCompra> getAllListaCompra(){
@@ -136,6 +140,17 @@ public class DatabaseORM {
         lista.add(new Supermercado(1L, SupermercadoNombres.ALIMERKA, 0.0, 0.0));
         lista.add(new Supermercado(2L, SupermercadoNombres.MERCADONA, 1.0, 2.0));
         return lista;
+    }
+
+    public boolean isListaAcabada(Long idLista) {
+        int tamañoProductosComprados = productoConListaCompraDao.queryBuilder()
+                .where(JoinProductoConListaCompraDao.Properties.ListaCompra_id.eq(idLista))
+                .where(JoinProductoConListaCompraDao.Properties.Comprado.eq(true))
+                .list().size();
+
+        int tamañoLista = listaCompraDao.load(idLista).getProductos().size();
+
+        return tamañoProductosComprados == tamañoLista;
     }
 
 

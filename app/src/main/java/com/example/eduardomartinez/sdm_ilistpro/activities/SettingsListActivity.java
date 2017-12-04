@@ -54,7 +54,7 @@ public class SettingsListActivity extends AppCompatActivity
     private Switch miLocalizacion;
     private EditText nuevaLocalizacion;
 
-    private SharedPreferences preferences;
+    private static SharedPreferences preferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -128,6 +128,16 @@ public class SettingsListActivity extends AppCompatActivity
     @Override
     public void onPause() {
         super.onPause();
+        cambiarPreferencias();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        cliente.disconnect();
+    }
+
+    private void cambiarPreferencias () {
         final SharedPreferences.Editor mEditor = preferences.edit();
         mEditor.putBoolean(TiposPreferencias.MiLocalizacion, miLocalizacion.isChecked());
         mEditor.putBoolean(TiposPreferencias.SoloUnSupermercado, soloUnSupermercado.isChecked());
@@ -135,10 +145,14 @@ public class SettingsListActivity extends AppCompatActivity
         mEditor.commit();
     }
 
-    @Override
-    public void onStop(){
-        super.onStop();
-        cliente.disconnect();
+    public static void preferenciasPorDefecto() {
+        if (preferences != null) {
+            final SharedPreferences.Editor mEditor = preferences.edit();
+            mEditor.putBoolean(TiposPreferencias.MiLocalizacion, true);
+            mEditor.putBoolean(TiposPreferencias.SoloUnSupermercado, false);
+            mEditor.putInt(TiposPreferencias.SupermercadoSeleccionado, 0);
+            mEditor.commit();
+        }
     }
 
     @Override

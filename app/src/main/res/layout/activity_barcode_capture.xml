@@ -11,7 +11,8 @@
     <com.example.eduardomartinez.sdm_ilistpro.activities.barcode.ui.camera.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <com.example.eduardomartinez.sdm_ilistpro.activities.barcode.ui.camera.GraphicOverlay
             android:id="@+id/graphicOverlay"
@@ -19,5 +20,13 @@
             android:layout_height="match_parent" />
 
     </com.example.eduardomartinez.sdm_ilistpro.activities.barcode.ui.camera.CameraSourcePreview>
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="ToggleButton"
+        android:onClick="changeFlash"
+        android:layout_weight="10"/>
 
 </LinearLayout>

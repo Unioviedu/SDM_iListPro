@@ -38,8 +38,10 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.eduardomartinez.sdm_ilistpro.R;
+import com.example.eduardomartinez.sdm_ilistpro.activities.SavedListActivity;
 import com.example.eduardomartinez.sdm_ilistpro.activities.barcode.ui.camera.CameraSource;
 import com.example.eduardomartinez.sdm_ilistpro.activities.barcode.ui.camera.CameraSourcePreview;
 import com.example.eduardomartinez.sdm_ilistpro.activities.barcode.ui.camera.GraphicOverlay;
@@ -430,10 +432,29 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
         }
     }
 
+    public static String BARCODE = "BARCODE";
+
     @Override
     public void onBarcodeDetected(Barcode barcode) {
-        Snackbar.make(mGraphicOverlay, barcode.displayValue.toString(),
-                Snackbar.LENGTH_LONG)
-                .show();
+        Intent intent = new Intent(this, SavedListActivity.class);
+        intent.putExtra(BARCODE, barcode.displayValue);
+        startActivity(intent);
+        finish();
+    }
+
+    public void changeFlash(View view) {
+        ToggleButton button = (ToggleButton) findViewById(R.id.toggleButton);
+
+        BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(getApplicationContext()).build();
+        BarcodeTrackerFactory barcodeFactory = new BarcodeTrackerFactory(mGraphicOverlay, this);
+        barcodeDetector.setProcessor(
+                new MultiProcessor.Builder<>(barcodeFactory).build());
+        CameraSource.Builder builder = new CameraSource.Builder(getApplicationContext(), barcodeDetector)
+                .setFacing(CameraSource.CAMERA_FACING_BACK)
+                .setRequestedPreviewSize(1600, 1024)
+                .setRequestedFps(15.0f);
+        mCameraSource = builder
+                .setFlashMode(button.isChecked() ? Camera.Parameters.FLASH_MODE_TORCH : null)
+                .build();
     }
 }

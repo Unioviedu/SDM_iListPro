@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.example.eduardomartinez.sdm_ilistpro.GestorListaCompraActual;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
@@ -63,6 +64,7 @@ public class ProductoAddedItemAdapter extends BaseAdapter {
         precioLista.setText(Utilidades.precio(item.getPrecio()));
 
         check.setTag(item.getId());
+        check.setChecked(GestorListaCompraActual.getInstance().isComprado(item));
 
         return rowView;
     }

@@ -97,9 +97,10 @@ public class GestorNewListaCompra {
     }
 
     public boolean isProductoAñadido(long id) {
-        for (Producto p: productosAñadidos)
+        for (Producto p: productosAñadidos) {
             if (p.getId() == id)
                 return true;
+        }
 
         return false;
     }

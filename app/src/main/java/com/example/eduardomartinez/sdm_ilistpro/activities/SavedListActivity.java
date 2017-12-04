@@ -1,6 +1,8 @@
 package com.example.eduardomartinez.sdm_ilistpro.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +14,7 @@ import android.widget.SearchView;
 import android.widget.Switch;
 
 
+import com.example.eduardomartinez.sdm_ilistpro.GestorListaCompraActual;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ProductoAddedItemAdapter;
@@ -34,10 +37,23 @@ public class SavedListActivity extends AppCompatActivity implements SearchView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_list);
+        buscarComponentes();
+
         listaCompraActual = (ListaCompra) getIntent().getExtras().getSerializable(SerializablesTag.LISTA_COMPRA);
+
+        if (listaCompraActual != null)
+            GestorListaCompraActual.getInstance().setListaActual(listaCompraActual);
+        else
+            listaCompraActual = GestorListaCompraActual.getInstance().getListaActual();
+
         setTitle(listaCompraActual.getNombre());
 
-        buscarComponentes();
+        Object obj = getIntent().getExtras() == null ?
+                null
+                : getIntent().getExtras().get(BarcodeCaptureActivity.BARCODE);
+
+        if (obj != null)
+            comprarProducto((String) obj);
         mostrarComprados(false);
     }
 
@@ -72,12 +88,69 @@ public class SavedListActivity extends AppCompatActivity implements SearchView.O
         finish();
     }
 
+    public void comprarProducto(String codigo) {
+        Producto producto = listaCompraActual.buscarProducto(codigo);
+
+        if (producto != null) {
+            DatabaseORM.getInstance().marcarComprado(listaCompraActual.getId(), producto.getId(), true);
+            Utilidades.crearToast(this, listaCompraActual.buscarProducto(codigo).getNombre(),
+                    "Has comprado este producto correctamente, puedes verlo activando la opcion Productos comprados de arriba");
+            mostrarComprados(false);
+        } else {
+            comprarProductoNuevo(codigo);
+        }
+
+        comprobarLista();
+    }
+
+    private void comprarProductoNuevo(String codigo) {
+        boolean encontrado = false;
+        for (Producto p: DatabaseORM.getInstance().getAllProductos()) {
+            final Producto producto = p;
+            if (p.getCodigoBarra().equals(codigo)) {
+                encontrado = true;
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Quieres añadir y comprar este producto: "+p.getNombre())
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                listaCompraActual.addProducto(producto);
+                                DatabaseORM.getInstance().updateListaCompra(listaCompraActual);
+                                comprarProducto(producto.getCodigoBarra());
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                builder.create().show();
+            }
+        }
+
+        if (!encontrado)
+            new AlertDialog.Builder(this)
+                    .setMessage("No se ha encontrado el producto con codigo "+ codigo)
+                    .create()
+                    .show();
+    }
+
     public void comprarProducto(View view) {
-        Producto producto = listaCompraActual.comprarProducto((long) view.getTag());
-        DatabaseORM.getInstance().marcarComprado(listaCompraActual.getId(), producto.getId(), true);
-        Utilidades.crearToast(this, producto.getNombre(),
-                "Has comprado este producto correctamente, puedes verlo activando la opcion Productos comprados de arriba");
-        mostrarComprados(false);
+        Producto producto = listaCompraActual.buscarProducto((long) view.getTag());
+
+        if (GestorListaCompraActual.getInstance().isComprado(producto)) {
+            DatabaseORM.getInstance().marcarComprado(listaCompraActual.getId(), producto.getId(), false);
+            Utilidades.crearToast(this, producto.getNombre(),
+                    "Has devuelto este producto correctamente, puedes verlo desactivando la opcion Productos comprados de arriba");
+            mostrarComprados(true);
+        } else {
+            DatabaseORM.getInstance().marcarComprado(listaCompraActual.getId(), producto.getId(), true);
+            Utilidades.crearToast(this, producto.getNombre(),
+                    "Has comprado este producto correctamente, puedes verlo activando la opcion Productos comprados de arriba");
+            mostrarComprados(false);
+        }
+
+        comprobarLista();
     }
 
     private void mostrarComprados(boolean comprado) {
@@ -85,6 +158,27 @@ public class SavedListActivity extends AppCompatActivity implements SearchView.O
         listaTemp.addAll(listaCompraActual.getProductos());
 
         rellenarLista(Utilidades.filterProductoComprado(listaCompraActual.getId(), listaTemp, comprado));
+    }
+
+    private void comprobarLista() {
+        if (DatabaseORM.getInstance().isListaAcabada(listaCompraActual.getId())) {
+            new AlertDialog.Builder(this)
+                    .setMessage("Ya has completado todos los productos de la lista")
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            moveMainActivity();
+                        }
+                    })
+                    .create()
+                    .show();
+        }
+    }
+
+    public void moveMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void buscarComponentes() {

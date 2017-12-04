@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
+import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
 
 import java.util.List;
@@ -56,7 +57,9 @@ public class ListaCompraItemAdapter extends BaseAdapter {
         TextView precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioListaItem);
 
         ListaCompra item = this.items.get(i);
-        nombreLista.setText(item.getNombre());
+
+        boolean listaCompletada = DatabaseORM.getInstance().isListaAcabada(item.getId());
+        nombreLista.setText(listaCompletada ? item.getNombre()+ " (COMPLETADA)" : item.getNombre());
         precioLista.setText(Utilidades.precio(item.getImporteTotal()));
 
         return rowView;

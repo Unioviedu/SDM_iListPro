@@ -178,8 +178,18 @@ public class ListaCompra implements Serializable {
         return productos;
     }
 
-    public Producto comprarProducto (long id) {
-        //AQUI DEBERIA IR LA LOGICA DE COMPRAR PRODUCTO
+    public Producto buscarProducto(String codigo) {
+        for (Producto p: productos) {
+            Log.i("codigo", p.getCodigoBarra()+" "+codigo);
+            Log.i("codigo", p.getCodigoBarra().equals(codigo)+"");
+            if (p.getCodigoBarra().equals(codigo))
+                return p;
+        }
+        return null;
+    }
+
+    public Producto buscarProducto (long id) {
+
         for (Producto p: productos)
             if (p.getId() == id)
                 return p;

@@ -26,7 +26,7 @@ public class Producto implements Serializable {
     private String nombre;
     private Double precio;
     private Integer foto;
-    private Long codigo_barra;
+    private String codigo_barra;
     private Integer categoria;
     @ToMany()
     @JoinEntity(entity = JoinProductoConListaCompra.class,
@@ -48,9 +48,10 @@ public class Producto implements Serializable {
     }
 
 
-    @Generated(hash = 1052805079)
+
+    @Generated(hash = 1651698547)
     public Producto(Long id, String supermercado, String nombre, Double precio,
-            Integer foto, Long codigo_barra, Integer categoria) {
+            Integer foto, String codigo_barra, Integer categoria) {
         this.id = id;
         this.supermercado = supermercado;
         this.nombre = nombre;
@@ -94,11 +95,11 @@ public class Producto implements Serializable {
         this.foto = foto;
     }
 
-    public Long getCodigoBarra() {
+    public String getCodigoBarra() {
         return codigo_barra;
     }
 
-    public void setCodigoBarra(Long codigoBarra) {
+    public void setCodigoBarra(String codigoBarra) {
         this.codigo_barra = codigoBarra;
     }
 
@@ -133,11 +134,11 @@ public class Producto implements Serializable {
                 '}';
     }
 
-    public Long getCodigo_barra() {
+    public String getCodigo_barra() {
         return this.codigo_barra;
     }
 
-    public void setCodigo_barra(Long codigo_barra) {
+    public void setCodigo_barra(String codigo_barra) {
         this.codigo_barra = codigo_barra;
     }
 
@@ -149,6 +150,7 @@ public class Producto implements Serializable {
     public String getSupermercado() {
         return this.supermercado;
     }
+
 
 
     /**
@@ -175,11 +177,13 @@ public class Producto implements Serializable {
     }
 
 
+
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 352377749)
     public synchronized void resetListasCompra() {
         listasCompra = null;
     }
+
 
 
     /**
@@ -195,6 +199,7 @@ public class Producto implements Serializable {
     }
 
 
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -206,6 +211,7 @@ public class Producto implements Serializable {
         }
         myDao.refresh(this);
     }
+
 
 
     /**
@@ -221,10 +227,13 @@ public class Producto implements Serializable {
     }
 
 
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1100354616)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getProductoDao() : null;
     }
+
+
 }
