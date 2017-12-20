@@ -21,8 +21,10 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.eduardomartinez.sdm_ilistpro.GestorListaCompraActual;
 import com.example.eduardomartinez.sdm_ilistpro.GestorNewListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.R;
+import com.example.eduardomartinez.sdm_ilistpro.SupermercadoNombres;
 import com.example.eduardomartinez.sdm_ilistpro.TiposPreferencias;
 import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Supermercado;
@@ -75,11 +77,12 @@ public class SettingsListActivity extends AppCompatActivity
         miLocalizacion = (Switch) findViewById(R.id.switchLocalizacion);
         spinnerSupermercados = (Spinner) findViewById(R.id.spinnerSupermercado);
         nuevaLocalizacion = (EditText) findViewById(R.id.editTextNuevaLocalizacion);
-        llenarSpinner();
         soloUnSupermercado = (Switch) findViewById(R.id.switchUnSupermercado);
         restablecerPreferencias();
         añadirFunciones();
         crearLocationRequest();
+        localizame();
+        llenarSpinner();
     }
 
     private void restablecerPreferencias() {
@@ -213,7 +216,7 @@ public class SettingsListActivity extends AppCompatActivity
                 LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    public Location localizame(View view){
+    public Location localizame(){
         // Empezar a recoger actualizaciones, lo llamaremos desde el main en cuanto abramos la applicacion
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -237,11 +240,23 @@ public class SettingsListActivity extends AppCompatActivity
 
     private void llenarSpinner() {
         List<Supermercado> supermercadoList = new LinkedList<>();
-        supermercadoList = DatabaseORM.getInstance().getSuperMercadosCercanos(0.0, 0.0);
+        supermercadoList = getSupermercadosCercanos();
 
         ArrayAdapter<Supermercado> adapter =
                 new ArrayAdapter<Supermercado>(this, R.layout.support_simple_spinner_dropdown_item, supermercadoList);
 
         spinnerSupermercados.setAdapter(adapter);
+    }
+
+    private List<Supermercado> getSupermercadosCercanos() {
+        ubicacion.getLatitude();
+        ubicacion.getAltitude();
+
+        //ESTO HAY QUE SUSTITUIRLO POR EL CODIGO BUENO
+        List<Supermercado> lista = new LinkedList<>();
+        lista.add(new Supermercado(1L, SupermercadoNombres.ALIMERKA, 0.0, 0.0));
+        lista.add(new Supermercado(2L, SupermercadoNombres.MERCADONA, 1.0, 2.0));
+        GestorNewListaCompra.getInstance().setSupermercadosCercanos(lista); //ESTO HAY QUE DEJARLO
+        return lista;
     }
 }

@@ -146,13 +146,6 @@ public class DatabaseORM {
                 .list();
     }
 
-    public List<Supermercado> getSuperMercadosCercanos(Double latitud, Double longitud){
-        List<Supermercado> lista = new LinkedList<>();
-        lista.add(new Supermercado(1L, SupermercadoNombres.ALIMERKA, 0.0, 0.0));
-        lista.add(new Supermercado(2L, SupermercadoNombres.MERCADONA, 1.0, 2.0));
-        return lista;
-    }
-
     public boolean isListaAcabada(Long idLista) {
         int tamañoProductosComprados = productoConListaCompraDao.queryBuilder()
                 .where(JoinProductoConListaCompraDao.Properties.ListaCompra_id.eq(idLista))

@@ -64,12 +64,12 @@ public class Utilidades {
         return items;
     }
 
-    public static List<Producto> filterProductoBySupermercado(List<Producto> items) {
+    public static List<Producto> filterProductoBySupermercado(List<Producto> items, List<Supermercado> supermercadosCercanos) {
         List<Supermercado> supermercados = new LinkedList<>();
         boolean soloUnSupermercado = GestorNewListaCompra.getInstance().isSoloUnSupermercado();
 
         if (!soloUnSupermercado)
-            supermercados = DatabaseORM.getInstance().getSuperMercadosCercanos(0.0, 0.0);
+            supermercados = supermercadosCercanos;
         else
             supermercados.add(GestorNewListaCompra.getInstance().getSupermercadoSeleccionado());
 

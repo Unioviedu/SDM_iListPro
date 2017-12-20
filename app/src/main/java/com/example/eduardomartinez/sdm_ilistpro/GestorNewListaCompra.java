@@ -5,6 +5,7 @@ import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Supermercado;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -25,6 +26,7 @@ public class GestorNewListaCompra {
     private HashMap<Long, Producto> todosProductos;
 
     private boolean soloUnSupermercado = false;
+    private List<Supermercado> supermercadosCercanos = new ArrayList<Supermercado>();
     private Supermercado supermercadoSeleccionado;
 
     private GestorNewListaCompra() {
@@ -126,5 +128,13 @@ public class GestorNewListaCompra {
 
     public void setSupermercadoSeleccionado(Supermercado supermercadoSeleccionado) {
         this.supermercadoSeleccionado = supermercadoSeleccionado;
+    }
+
+    public List<Supermercado> getSupermercadosCercanos() {
+        return supermercadosCercanos;
+    }
+
+    public void setSupermercadosCercanos(List<Supermercado> supermercadosCercanos) {
+        this.supermercadosCercanos = supermercadosCercanos;
     }
 }
