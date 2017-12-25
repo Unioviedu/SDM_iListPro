@@ -75,6 +75,10 @@ public class DatabaseORM {
         }
     }
 
+    public ListaCompra getListaCompra(long id) {
+        return listaCompraDao.load(id);
+    }
+
     public List<ListaCompra> getAllListaCompra(){
         List<ListaCompra> listas = listaCompraDao.loadAll();
         for(ListaCompra l: listas) {

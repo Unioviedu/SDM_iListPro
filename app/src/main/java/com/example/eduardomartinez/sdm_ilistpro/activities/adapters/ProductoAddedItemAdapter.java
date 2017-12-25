@@ -1,16 +1,20 @@
 package com.example.eduardomartinez.sdm_ilistpro.activities.adapters;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.eduardomartinez.sdm_ilistpro.GestorListaCompraActual;
+import com.example.eduardomartinez.sdm_ilistpro.GestorNewListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
+import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
 
 import java.util.LinkedList;
@@ -57,11 +61,16 @@ public class ProductoAddedItemAdapter extends BaseAdapter {
 
         TextView nombreLista = (TextView) rowView.findViewById(R.id.textViewNombreProductoItem);
         TextView precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioProductoItem);
+        EditText numeroUnidades = (EditText) rowView.findViewById(R.id.editNumeroProductosItemAdded);
         CheckBox check = (CheckBox) rowView.findViewById(R.id.checkBoxProducto);
 
         Producto item = this.items.get(i);
         nombreLista.setText(item.getNombre());
         precioLista.setText(Utilidades.precio(item.getPrecio()));
+
+        long idLista = GestorListaCompraActual.getInstance().getListaActual().getId();
+        int unidades = DatabaseORM.getInstance().getCantidadProducto(idLista, item.getId());
+        numeroUnidades.setText(String.valueOf(unidades));
 
         check.setTag(item.getId());
         check.setChecked(GestorListaCompraActual.getInstance().isComprado(item));

@@ -58,6 +58,7 @@ public class ListaCompraItemAdapter extends BaseAdapter {
         TextView nombreLista = (TextView) rowView.findViewById(R.id.textViewNombreListaItem);
         TextView precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioListaItem);
         ImageButton button = (ImageButton) rowView.findViewById(R.id.buttonDeleteList);
+        ImageButton buttonVer = (ImageButton) rowView.findViewById(R.id.buttonVerList);
 
         ListaCompra item = this.items.get(i);
 
@@ -65,6 +66,7 @@ public class ListaCompraItemAdapter extends BaseAdapter {
         nombreLista.setText(listaCompletada ? item.getNombre()+ " (COMPLETADA)" : item.getNombre());
         precioLista.setText(Utilidades.precio(item.getImporteTotal()));
         button.setTag(item.getId());
+        buttonVer.setTag(item.getId());
 
         return rowView;
     }

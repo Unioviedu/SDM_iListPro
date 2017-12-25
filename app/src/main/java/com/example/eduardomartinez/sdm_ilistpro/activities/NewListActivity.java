@@ -65,9 +65,10 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        //GestorNewListaCompra.getInstance().clear();
+    protected void onDestroy() {
+        super.onDestroy();
+
+        GestorNewListaCompra.getInstance().clear();
     }
 
     public void deleteProductItem (View view) {

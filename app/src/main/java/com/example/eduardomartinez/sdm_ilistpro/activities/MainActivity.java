@@ -97,6 +97,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         builder.create().show();
     }
 
+    public void verListItem(View view) {
+        ListaCompra lista = db.getListaCompra((long) view.getTag());
+        moverListShoppingSavedActivity(lista);
+    }
+
     public void borrarLista (long idLista) {
         ListaCompra lista = new ListaCompra();
 
