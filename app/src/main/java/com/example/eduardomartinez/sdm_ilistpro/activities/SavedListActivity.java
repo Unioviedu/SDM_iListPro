@@ -70,9 +70,31 @@ public class SavedListActivity extends AppCompatActivity implements SearchView.O
             moverAHome();
         } else if (id == R.id.action_edit) {
             moverEditListActivity();
+        } else if (id == R.id.action_delete) {
+            eliminarListaActual();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void eliminarListaActual() {
+        final ListaCompra lista = GestorListaCompraActual.getInstance().getListaActual();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Quieres borrar esta lista?, la acción es permanente")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        DatabaseORM.getInstance().deleteListaCompra(lista);
+                        moverAHome();
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+        // Create the AlertDialog object and return it
+        builder.create().show();
     }
 
     private void moverAHome() {

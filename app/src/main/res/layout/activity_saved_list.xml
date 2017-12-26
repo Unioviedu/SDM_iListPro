@@ -48,8 +48,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/buttonEscanear"
-        android:layout_width="61dp"
-        android:layout_height="67dp"
+        android:layout_width="71dp"
+        android:layout_height="74dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -59,10 +59,10 @@
         app:backgroundTint="@android:color/transparent"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintHorizontal_bias="0.973"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.857"
+        app:layout_constraintVertical_bias="0.981"
         app:srcCompat="@drawable/icono_escanear" />
 </android.support.constraint.ConstraintLayout>
