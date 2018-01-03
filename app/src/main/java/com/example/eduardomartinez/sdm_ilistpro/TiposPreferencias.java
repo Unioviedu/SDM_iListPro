@@ -5,5 +5,7 @@ package com.example.eduardomartinez.sdm_ilistpro;
  */
 
 public class TiposPreferencias {
-    public static String MiLocalizacion = "MiLocalizacion", SoloUnSupermercado = "SoloUnSupermercado", SupermercadoSeleccionado = "SupermercadoSeleccionado";
+    public static String SoloUnSupermercado = "SoloUnSupermercado", SupermercadoSeleccionado = "SupermercadoSeleccionado",
+                    PrecioMinSeleccionado = "PrecioMinSeleccionado", PrecioMin = "PrecioMin",
+                    PrecioMaxSeleccionado = "PrecioMaxSeleccionado", PrecioMax = "PrecioMax";
 }

@@ -1,5 +1,6 @@
 package com.example.eduardomartinez.sdm_ilistpro.activities;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
@@ -20,6 +21,7 @@ import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ListaCompraI
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
+import com.example.eduardomartinez.sdm_ilistpro.database.model.Supermercado;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.LinkedList;
@@ -84,10 +86,45 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void moverAddListActivity (View view) {
         //AQUI HAY QUE PASAR A LA pantalla para crear una nueva lista
         //NewListActivity
-        Intent intent = new Intent(this, NewListActivity.class);
-        GestorNewListaCompra.getInstance().setLocation(loc.getUbicacionActual());
+        final GestorNewListaCompra gestor = GestorNewListaCompra.getInstance();
+        final Intent intent = new Intent(this, NewListActivity.class);
+        gestor.setLocation(loc.getUbicacionActual());
         Localizacion.getInstance().getSupermercadosCercanos();
-        startActivity(intent);
+
+        final ProgressDialog progress=new ProgressDialog(this);
+        progress.setMessage("Buscando supermercados cercanos...");
+        progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        // progress.setIndeterminate(true);
+        progress.setProgress(0);
+        progress.show();
+
+        final int totalProgressTime = 100;
+        final Thread t = new Thread() {
+            @Override
+            public void run() {
+                int jumpTime = 0;
+
+                while(jumpTime < totalProgressTime) {
+                    try {
+                        jumpTime += 5;
+                        progress.setProgress(jumpTime);
+                        List<Supermercado> lista = gestor.getSupermercadosCercanos();
+                        Thread.sleep(50);
+                        while (lista.isEmpty()) {
+                            lista = gestor.getSupermercadosCercanos();
+                        }
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                startActivity(intent);
+                progress.cancel();
+            }
+        };
+
+        t.start();
     }
 
     public void deleteListItem(View view) {

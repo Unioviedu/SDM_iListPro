@@ -57,6 +57,8 @@ public class ListProductsFragment extends Fragment implements SearchView.OnQuery
         if (filtro) {
             productos = Utilidades.filterProducto(productos, text);
         }
+        GestorNewListaCompra gestor = GestorNewListaCompra.getInstance();
+        productos = Utilidades.filtrarProductosPrecio(productos, gestor.activadoPrecioMin, gestor.precioMin, gestor.activadoPrecioMax, gestor.precioMax);
 
         this.listViewProductsForAdded.setAdapter(new ProductoForAddItemAdapter(getActivity(), productos));
 

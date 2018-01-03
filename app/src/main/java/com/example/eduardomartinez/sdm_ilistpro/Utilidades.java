@@ -73,6 +73,9 @@ public class Utilidades {
         else
             supermercados.add(GestorNewListaCompra.getInstance().getSupermercadoSeleccionado());
 
+        if (supermercados.isEmpty() || supermercados.get(0) == null)
+            return items;
+
         List<Producto> productosFiltrados = new LinkedList<>();
         List<String> nombreSupermercados = new LinkedList<>();
 
@@ -106,5 +109,23 @@ public class Utilidades {
 
     public static List<Producto> orderProductos(List<Producto> productos) {
         return QuickSort.quicksort(productos, 0, productos.size()-1);
+    }
+
+    public static List<Producto> filtrarProductosPrecio(List<Producto> productos, boolean activadoPrecioMin, int precioMin, boolean activadoPrecioMax, int precioMax) {
+        List<Producto> listaTemp = new LinkedList<>();
+
+        for (Producto producto: productos) {
+            if (activadoPrecioMin)
+              if (producto.getPrecio() < precioMin)
+                  break;
+
+            if (activadoPrecioMax)
+                if (producto.getPrecio() > precioMax)
+                    break;
+
+            listaTemp.add(producto);
+        }
+
+        return listaTemp;
     }
 }

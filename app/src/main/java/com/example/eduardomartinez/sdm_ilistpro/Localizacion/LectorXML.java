@@ -45,6 +45,7 @@ public class LectorXML {
             NodeList nList = doc.getElementsByTagName("result");
 
             if(doc.hasChildNodes()){
+                Log.i("miguel", nList.getLength()+"");
                 getChilds(/*doc.getChildNodes()*/nList);
             }
         }catch(Exception e){

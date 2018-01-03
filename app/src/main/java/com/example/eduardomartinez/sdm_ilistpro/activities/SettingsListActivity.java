@@ -17,8 +17,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eduardomartinez.sdm_ilistpro.GestorListaCompraActual;
@@ -54,8 +56,16 @@ public class SettingsListActivity extends AppCompatActivity
 
     private Spinner spinnerSupermercados;
     private Switch soloUnSupermercado;
-    private Switch miLocalizacion;
-    private EditText nuevaLocalizacion;
+
+    private Switch switchPrecioMin;
+    private Switch switchPrecioMax;
+    private SeekBar seekPrecioMin;
+    private SeekBar seekPrecioMax;
+    private TextView textPrecioMin;
+    private TextView textPrecioMax;
+
+    private TextView longitud;
+    private TextView latitud;
 
     private static SharedPreferences preferences;
     private View btEstablecerUbicacion;
@@ -77,21 +87,51 @@ public class SettingsListActivity extends AppCompatActivity
         }
 
         preferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
-        miLocalizacion = (Switch) findViewById(R.id.switchLocalizacion);
         spinnerSupermercados = (Spinner) findViewById(R.id.spinnerSupermercado);
-        nuevaLocalizacion = (EditText) findViewById(R.id.editTextNuevaLocalizacion);
         soloUnSupermercado = (Switch) findViewById(R.id.switchUnSupermercado);
-        btEstablecerUbicacion = (Button) findViewById(R.id.buttonBuscarNuevaUbicacion);
+
+        latitud = (TextView) findViewById(R.id.latitud);
+        String lat = String.valueOf(GestorNewListaCompra.getInstance().getUbicacion().getLatitude());
+        latitud.setText(lat);
+
+        longitud = (TextView) findViewById(R.id.longitud);
+        String lng = String.valueOf(GestorNewListaCompra.getInstance().getUbicacion().getLongitude());
+        longitud.setText(lng);
+
+        switchPrecioMin = (Switch) findViewById(R.id.switchPrecioMin);
+        switchPrecioMax = (Switch) findViewById(R.id.switchPrecioMax);
+        seekPrecioMin = (SeekBar) findViewById(R.id.seekBarPrecioMin);
+        seekPrecioMax = (SeekBar) findViewById(R.id.seekBarPrecioMax);
+        textPrecioMin = (TextView) findViewById(R.id.textViewPrecioMin);
+        textPrecioMax = (TextView) findViewById(R.id.textViewPrecioMax);
+
         restablecerPreferencias();
         añadirFunciones();
-        //crearLocationRequest();
-        //localizame();
+        actualizarPrecios();
         llenarSpinner();
+
+        textPrecioMin.setText(String.valueOf(seekPrecioMin.getProgress()));
+        textPrecioMax.setText(String.valueOf(seekPrecioMax.getProgress()));
+        seekPrecioMin.setEnabled(switchPrecioMin.isChecked());
+        seekPrecioMax.setEnabled(switchPrecioMax.isChecked());
+    }
+
+    private void actualizarPrecios() {
+        GestorNewListaCompra gestor = GestorNewListaCompra.getInstance();
+        gestor.activadoPrecioMin = switchPrecioMin.isChecked();
+        gestor.activadoPrecioMax = switchPrecioMax.isChecked();
+
+        gestor.precioMin = seekPrecioMin.getProgress();
+        gestor.precioMax = seekPrecioMax.getProgress();
     }
 
     private void restablecerPreferencias() {
-        miLocalizacion.setChecked(preferences.getBoolean(TiposPreferencias.MiLocalizacion, true));
-        nuevaLocalizacion.setEnabled(!miLocalizacion.isChecked());
+        switchPrecioMin.setChecked(preferences.getBoolean(TiposPreferencias.PrecioMinSeleccionado, false));
+        switchPrecioMax.setChecked(preferences.getBoolean(TiposPreferencias.PrecioMaxSeleccionado, false));
+
+        seekPrecioMin.setProgress(preferences.getInt(TiposPreferencias.PrecioMin, 10));
+        seekPrecioMax.setProgress(preferences.getInt(TiposPreferencias.PrecioMax, 10));
+
         soloUnSupermercado.setChecked(preferences.getBoolean(TiposPreferencias.SoloUnSupermercado, false));
         spinnerSupermercados.setSelection(preferences.getInt(TiposPreferencias.SupermercadoSeleccionado, 0));
         spinnerSupermercados.setEnabled(soloUnSupermercado.isChecked());
@@ -106,9 +146,17 @@ public class SettingsListActivity extends AppCompatActivity
             }
         });
 
-        miLocalizacion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switchPrecioMin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                nuevaLocalizacion.setEnabled(!isChecked);
+                seekPrecioMin.setEnabled(isChecked);
+                actualizarPrecios();
+            }
+        });
+
+        switchPrecioMax.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                seekPrecioMax.setEnabled(isChecked);
+                actualizarPrecios();
             }
         });
 
@@ -120,10 +168,39 @@ public class SettingsListActivity extends AppCompatActivity
                     }
                 });
 
-        btEstablecerUbicacion.setOnClickListener(new View.OnClickListener() {
+        seekPrecioMin.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onClick(View view) {
-                localizame();
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                textPrecioMin.setText(String.valueOf(progress));
+                actualizarPrecios();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        seekPrecioMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                textPrecioMax.setText(String.valueOf(progress));
+                actualizarPrecios();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
     }
@@ -151,9 +228,18 @@ public class SettingsListActivity extends AppCompatActivity
         cliente.disconnect();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        cambiarPreferencias();
+    }
+
     private void cambiarPreferencias () {
         final SharedPreferences.Editor mEditor = preferences.edit();
-        mEditor.putBoolean(TiposPreferencias.MiLocalizacion, miLocalizacion.isChecked());
+        mEditor.putBoolean(TiposPreferencias.PrecioMaxSeleccionado, switchPrecioMax.isChecked());
+        mEditor.putInt(TiposPreferencias.PrecioMax, seekPrecioMax.getProgress());
+        mEditor.putBoolean(TiposPreferencias.PrecioMinSeleccionado, switchPrecioMin.isChecked());
+        mEditor.putInt(TiposPreferencias.PrecioMin, seekPrecioMin.getProgress());
         mEditor.putBoolean(TiposPreferencias.SoloUnSupermercado, soloUnSupermercado.isChecked());
         mEditor.putInt(TiposPreferencias.SupermercadoSeleccionado, spinnerSupermercados.getSelectedItemPosition());
         mEditor.commit();
@@ -162,7 +248,10 @@ public class SettingsListActivity extends AppCompatActivity
     public static void preferenciasPorDefecto() {
         if (preferences != null) {
             final SharedPreferences.Editor mEditor = preferences.edit();
-            mEditor.putBoolean(TiposPreferencias.MiLocalizacion, true);
+            mEditor.putBoolean(TiposPreferencias.PrecioMaxSeleccionado, false);
+            mEditor.putInt(TiposPreferencias.PrecioMax, 70);
+            mEditor.putBoolean(TiposPreferencias.PrecioMinSeleccionado, false);
+            mEditor.putInt(TiposPreferencias.PrecioMin, 10);
             mEditor.putBoolean(TiposPreferencias.SoloUnSupermercado, false);
             mEditor.putInt(TiposPreferencias.SupermercadoSeleccionado, 0);
             mEditor.commit();
@@ -217,42 +306,6 @@ public class SettingsListActivity extends AppCompatActivity
 
             }
         }
-    }
-
-    protected void crearLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(
-                LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
-    public Location localizame(){
-        if(miLocalizacion.isChecked()){
-            ubicacion = loc.getUbicacionActual();
-        }else{
-            String selected = nuevaLocalizacion.getText().toString();
-            Log.i("miguel","The selected address is: "+selected);
-            if(selected != null) {
-                ubicacion = loc.pedirUbicacion(selected);
-            }else{
-                ubicacion = loc.getUbicacionActual();
-            }
-        }
-        if(ubicacion != null) {
-            Log.i("miguel", "The selected location is: [lat: " + ubicacion.getLatitude() + ", lon:" + ubicacion.getLongitude() + "]");
-            Toast.makeText(this,"Nuestra ubicación es: [Latitud: "+ubicacion.getLatitude()+"; Longitud: "+ubicacion.getLongitude()+"]", Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(this,"The selected location is null",Toast.LENGTH_LONG).show();
-            Log.e("miguel","Ubicacion no disponible!");
-        }
-
-        GestorNewListaCompra.getInstance().setLocation(ubicacion);
-        Localizacion.getInstance().getSupermercadosCercanos();
-
-        Localizacion.getInstance().acabado = false;
-        llenarSpinner();
-        return ubicacion;
     }
 
     private void llenarSpinner() {

@@ -67,7 +67,7 @@ public class NewListActivity extends AppCompatActivity implements Serializable{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        SettingsListActivity.preferenciasPorDefecto();
         GestorNewListaCompra.getInstance().clear();
     }
 

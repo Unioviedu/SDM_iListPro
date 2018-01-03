@@ -33,6 +33,12 @@ public class GestorNewListaCompra {
 
     private Location ubicacion;
 
+    public boolean activadoPrecioMax;
+    public int precioMax;
+
+    public boolean activadoPrecioMin;
+    public int precioMin;
+
     private GestorNewListaCompra() {
         productosAñadidos = new LinkedList<>();
         cantidadProductos = new LinkedHashMap<>();

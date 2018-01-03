@@ -43,7 +43,7 @@ public class Localizacion  {
 
     public boolean acabado = false;
 
-    private final String APIkey = "AIzaSyCER1eyVzWXAFNhWmdqowGS-OJn1cMSupo";
+    private final String APIkey = "AIzaSyAhU5WdMZV-D4mmhcTk-PpuE7zbjPNuGdc";
 
     private Localizacion() {
         pedirPermisos();
@@ -171,15 +171,11 @@ public class Localizacion  {
         String url = "https://maps.googleapis.com/maps/api/place/textsearch/xml?query=supermarkets&location=";
         ubicacion = GestorNewListaCompra.getInstance().getUbicacion();
         url += ubicacion.getLatitude()+","+ubicacion.getLongitude()+"&radius=";
-        String radius = "50";
+        String radius = "1000";
         url += radius+"&key="+APIkey;
+        Log.i("miguel", url);
         new OpenFile().execute(url);
 
-        while (!acabado) {
-
-        }
-
-        acabado = false;
         return true;
     }
 
@@ -201,7 +197,6 @@ public class Localizacion  {
                 Log.e("miguel","Error with the asynchronous code!");
             }
             */
-            acabado = true;
             return "";
         }
     }
