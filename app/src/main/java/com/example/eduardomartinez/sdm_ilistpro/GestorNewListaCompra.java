@@ -1,5 +1,7 @@
 package com.example.eduardomartinez.sdm_ilistpro;
 
+import android.location.Location;
+
 import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.Producto;
@@ -28,6 +30,8 @@ public class GestorNewListaCompra {
     private boolean soloUnSupermercado = false;
     private List<Supermercado> supermercadosCercanos = new ArrayList<Supermercado>();
     private Supermercado supermercadoSeleccionado;
+
+    private Location ubicacion;
 
     private GestorNewListaCompra() {
         productosAñadidos = new LinkedList<>();
@@ -135,6 +139,15 @@ public class GestorNewListaCompra {
     }
 
     public void setSupermercadosCercanos(List<Supermercado> supermercadosCercanos) {
+
         this.supermercadosCercanos = supermercadosCercanos;
+    }
+
+    public void setLocation(Location ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public Location getUbicacion() {
+        return ubicacion;
     }
 }

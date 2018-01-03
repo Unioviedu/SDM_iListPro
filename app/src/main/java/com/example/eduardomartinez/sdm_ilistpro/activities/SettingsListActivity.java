@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.eduardomartinez.sdm_ilistpro.GestorListaCompraActual;
 import com.example.eduardomartinez.sdm_ilistpro.GestorNewListaCompra;
+import com.example.eduardomartinez.sdm_ilistpro.Localizacion.Localizacion;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.SupermercadoNombres;
 import com.example.eduardomartinez.sdm_ilistpro.TiposPreferencias;
@@ -57,6 +58,8 @@ public class SettingsListActivity extends AppCompatActivity
     private EditText nuevaLocalizacion;
 
     private static SharedPreferences preferences;
+    private View btEstablecerUbicacion;
+    private Localizacion loc = Localizacion.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -78,10 +81,11 @@ public class SettingsListActivity extends AppCompatActivity
         spinnerSupermercados = (Spinner) findViewById(R.id.spinnerSupermercado);
         nuevaLocalizacion = (EditText) findViewById(R.id.editTextNuevaLocalizacion);
         soloUnSupermercado = (Switch) findViewById(R.id.switchUnSupermercado);
+        btEstablecerUbicacion = (Button) findViewById(R.id.buttonBuscarNuevaUbicacion);
         restablecerPreferencias();
         añadirFunciones();
-        crearLocationRequest();
-        localizame();
+        //crearLocationRequest();
+        //localizame();
         llenarSpinner();
     }
 
@@ -115,6 +119,13 @@ public class SettingsListActivity extends AppCompatActivity
                     public void onNothingSelected(AdapterView<?> spn) {
                     }
                 });
+
+        btEstablecerUbicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                localizame();
+            }
+        });
     }
 
     public void seleccionarSupermercado() {
@@ -217,46 +228,41 @@ public class SettingsListActivity extends AppCompatActivity
     }
 
     public Location localizame(){
-        // Empezar a recoger actualizaciones, lo llamaremos desde el main en cuanto abramos la applicacion
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return null;
+        if(miLocalizacion.isChecked()){
+            ubicacion = loc.getUbicacionActual();
+        }else{
+            String selected = nuevaLocalizacion.getText().toString();
+            Log.i("miguel","The selected address is: "+selected);
+            if(selected != null) {
+                ubicacion = loc.pedirUbicacion(selected);
+            }else{
+                ubicacion = loc.getUbicacionActual();
+            }
+        }
+        if(ubicacion != null) {
+            Log.i("miguel", "The selected location is: [lat: " + ubicacion.getLatitude() + ", lon:" + ubicacion.getLongitude() + "]");
+            Toast.makeText(this,"Nuestra ubicación es: [Latitud: "+ubicacion.getLatitude()+"; Longitud: "+ubicacion.getLongitude()+"]", Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this,"The selected location is null",Toast.LENGTH_LONG).show();
+            Log.e("miguel","Ubicacion no disponible!");
         }
 
-        //LocationServices.FusedLocationApi.requestLocationUpdates(cliente, mLocationRequest, (LocationListener) this);
-        ubicacion = LocationServices.FusedLocationApi.getLastLocation(cliente);
-        Toast.makeText(this,"Empezamos a actualizar la localización!",Toast.LENGTH_SHORT).show();
-        Toast.makeText(this,"Nuestra ubicación es: [Latitud: "+ubicacion.getLatitude()+"; Longitud: "+ubicacion.getLongitude()+"]", Toast.LENGTH_LONG).show();
+        GestorNewListaCompra.getInstance().setLocation(ubicacion);
+        Localizacion.getInstance().getSupermercadosCercanos();
 
+        Localizacion.getInstance().acabado = false;
+        llenarSpinner();
         return ubicacion;
     }
 
     private void llenarSpinner() {
         List<Supermercado> supermercadoList = new LinkedList<>();
-        supermercadoList = getSupermercadosCercanos();
+        supermercadoList = GestorNewListaCompra.getInstance().getSupermercadosCercanos();
 
         ArrayAdapter<Supermercado> adapter =
                 new ArrayAdapter<Supermercado>(this, R.layout.support_simple_spinner_dropdown_item, supermercadoList);
 
         spinnerSupermercados.setAdapter(adapter);
-    }
-
-    private List<Supermercado> getSupermercadosCercanos() {
-        ubicacion.getLatitude();
-        ubicacion.getAltitude();
-
-        //ESTO HAY QUE SUSTITUIRLO POR EL CODIGO BUENO
-        List<Supermercado> lista = new LinkedList<>();
-        lista.add(new Supermercado(1L, SupermercadoNombres.ALIMERKA, 0.0, 0.0));
-        lista.add(new Supermercado(2L, SupermercadoNombres.MERCADONA, 1.0, 2.0));
-        GestorNewListaCompra.getInstance().setSupermercadosCercanos(lista); //ESTO HAY QUE DEJARLO
-        return lista;
+        spinnerSupermercados.refreshDrawableState();
     }
 }

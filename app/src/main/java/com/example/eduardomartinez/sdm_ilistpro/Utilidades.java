@@ -77,12 +77,16 @@ public class Utilidades {
         List<String> nombreSupermercados = new LinkedList<>();
 
         for (Supermercado sp: supermercados) {
-            nombreSupermercados.add(sp.getNombre());
+            nombreSupermercados.add(sp.getNombre().toLowerCase());
         }
 
         for (Producto p: items) {
-            if (nombreSupermercados.contains(p.getSupermercado()))
-                productosFiltrados.add(p);
+            for (String sup: nombreSupermercados) {
+                Log.i("cr7", sup.toString() + " " + p.getSupermercado().toString());
+                if (sup.contains(p.getSupermercado().toLowerCase())) {
+                    productosFiltrados.add(p);
+                }
+            }
         }
 
         return productosFiltrados;

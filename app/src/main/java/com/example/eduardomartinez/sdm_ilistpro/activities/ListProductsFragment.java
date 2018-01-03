@@ -52,7 +52,7 @@ public class ListProductsFragment extends Fragment implements SearchView.OnQuery
         }
 
         Utilidades.orderProductos(productos);
-        //productos = Utilidades.filterProductoBySupermercado(productos, GestorNewListaCompra.getInstance().getSupermercadosCercanos());
+        productos = Utilidades.filterProductoBySupermercado(productos, GestorNewListaCompra.getInstance().getSupermercadosCercanos());
 
         if (filtro) {
             productos = Utilidades.filterProducto(productos, text);

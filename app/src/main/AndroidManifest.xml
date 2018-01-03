@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -35,7 +36,6 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.SettingsListActivity" />
         <activity android:name=".activities.barcode.BarcodeCaptureActivity" />
-        <activity android:name="sdm_ilistpro.uniovi.es.MainActivity"></activity>
     </application>
 
 </manifest>

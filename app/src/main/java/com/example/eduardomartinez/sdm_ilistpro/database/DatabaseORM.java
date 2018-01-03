@@ -38,7 +38,7 @@ public class DatabaseORM {
 
     private DatabaseORM(Application app) {
         this.app = app;
-        helper = new DaoMaster.DevOpenHelper(app, "prueba001.db", null);
+        helper = new DaoMaster.DevOpenHelper(app, "prueba0001.db", null);
         daoMaster = new DaoMaster(helper.getWritableDatabase());
         daoSession = daoMaster.newSession();
         productoDao = daoSession.getProductoDao();
@@ -69,9 +69,9 @@ public class DatabaseORM {
             productoDao.insert(new Producto(null, SupermercadoNombres.ALIMERKA, "Pescado1", 5.0, null, "0003", TiposProducto.PESCADO));
             productoDao.insert(new Producto(null, SupermercadoNombres.MERCADONA, "Pescado1", 5.0, null, "0004", TiposProducto.PESCADO));
             productoDao.insert(new Producto(null, SupermercadoNombres.MERCADONA, "Fruta", 1.5, null, "0005", TiposProducto.FRUTA));
-            productoDao.insert(new Producto(null, SupermercadoNombres.CORTE_INGLES, "Fruta", 3.5, null, "0006", TiposProducto.FRUTA));
-            productoDao.insert(new Producto(null, SupermercadoNombres.MAS_MAS, "Verdura", 2.5, null, "0007", TiposProducto.VERDURA));
-            productoDao.insert(new Producto(null, SupermercadoNombres.MAS_MAS, "Verdura2", 1.75, null, "0008", TiposProducto.VERDURA));
+            productoDao.insert(new Producto(null, SupermercadoNombres.CORTE, "Fruta", 3.5, null, "0006", TiposProducto.FRUTA));
+            productoDao.insert(new Producto(null, SupermercadoNombres.MAS, "Verdura", 2.5, null, "0007", TiposProducto.VERDURA));
+            productoDao.insert(new Producto(null, SupermercadoNombres.MAS, "Verdura2", 1.75, null, "0008", TiposProducto.VERDURA));
         }
     }
 

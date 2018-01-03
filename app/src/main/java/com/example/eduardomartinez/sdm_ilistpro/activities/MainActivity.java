@@ -2,25 +2,30 @@ package com.example.eduardomartinez.sdm_ilistpro.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
+import com.example.eduardomartinez.sdm_ilistpro.GestorNewListaCompra;
+import com.example.eduardomartinez.sdm_ilistpro.Localizacion.Localizacion;
 import com.example.eduardomartinez.sdm_ilistpro.Utilidades;
 import com.example.eduardomartinez.sdm_ilistpro.activities.adapters.ListaCompraItemAdapter;
 import com.example.eduardomartinez.sdm_ilistpro.R;
 import com.example.eduardomartinez.sdm_ilistpro.database.DatabaseORM;
 import com.example.eduardomartinez.sdm_ilistpro.database.model.ListaCompra;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, GoogleApiClient.ConnectionCallbacks{
     ListView listListaCompra;
     SearchView search;
 
@@ -28,10 +33,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     ListaCompraItemAdapter adapter;
     DatabaseORM db;
 
+    private Localizacion loc;
+    private Location ubicacion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        loc = Localizacion.getInstance(this);
 
         db = DatabaseORM.getInstance(getApplication());
         listaListaCompra = db.getAllListaCompra();
@@ -75,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         //AQUI HAY QUE PASAR A LA pantalla para crear una nueva lista
         //NewListActivity
         Intent intent = new Intent(this, NewListActivity.class);
+        GestorNewListaCompra.getInstance().setLocation(loc.getUbicacionActual());
+        Localizacion.getInstance().getSupermercadosCercanos();
         startActivity(intent);
     }
 
@@ -133,5 +145,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         List<ListaCompra> listaFiltrada = Utilidades.filterListaCompra(temp, newText);
         rellenarLista(listaFiltrada);
         return false;
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        //Toast.makeText(this, loc.getUbicacionActual()+"", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
     }
 }
