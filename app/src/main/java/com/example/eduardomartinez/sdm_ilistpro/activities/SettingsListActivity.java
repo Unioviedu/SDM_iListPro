@@ -91,11 +91,19 @@ public class SettingsListActivity extends AppCompatActivity
         soloUnSupermercado = (Switch) findViewById(R.id.switchUnSupermercado);
 
         latitud = (TextView) findViewById(R.id.latitud);
-        String lat = String.valueOf(GestorNewListaCompra.getInstance().getUbicacion().getLatitude());
+        String lat;
+        if (GestorNewListaCompra.getInstance().getUbicacion() != null)
+            lat = String.valueOf(GestorNewListaCompra.getInstance().getUbicacion().getLatitude());
+        else
+            lat = "OFFLINE";
         latitud.setText(lat);
 
         longitud = (TextView) findViewById(R.id.longitud);
-        String lng = String.valueOf(GestorNewListaCompra.getInstance().getUbicacion().getLongitude());
+        String lng;
+        if (GestorNewListaCompra.getInstance().getUbicacion() != null)
+            lng = String.valueOf(GestorNewListaCompra.getInstance().getUbicacion().getLongitude());
+        else
+            lng = "OFFLINE";
         longitud.setText(lng);
 
         switchPrecioMin = (Switch) findViewById(R.id.switchPrecioMin);
@@ -105,10 +113,10 @@ public class SettingsListActivity extends AppCompatActivity
         textPrecioMin = (TextView) findViewById(R.id.textViewPrecioMin);
         textPrecioMax = (TextView) findViewById(R.id.textViewPrecioMax);
 
-        restablecerPreferencias();
         añadirFunciones();
         actualizarPrecios();
         llenarSpinner();
+        restablecerPreferencias();
 
         textPrecioMin.setText(String.valueOf(seekPrecioMin.getProgress()));
         textPrecioMax.setText(String.valueOf(seekPrecioMax.getProgress()));
@@ -126,6 +134,7 @@ public class SettingsListActivity extends AppCompatActivity
     }
 
     private void restablecerPreferencias() {
+        Log.i("ed7", "Restablecer preferencias "+preferences.getInt(TiposPreferencias.SupermercadoSeleccionado, 0));
         switchPrecioMin.setChecked(preferences.getBoolean(TiposPreferencias.PrecioMinSeleccionado, false));
         switchPrecioMax.setChecked(preferences.getBoolean(TiposPreferencias.PrecioMaxSeleccionado, false));
 
@@ -235,6 +244,7 @@ public class SettingsListActivity extends AppCompatActivity
     }
 
     private void cambiarPreferencias () {
+        Log.i("ed7", "Cambiar preferencias "+spinnerSupermercados.getSelectedItemPosition());
         final SharedPreferences.Editor mEditor = preferences.edit();
         mEditor.putBoolean(TiposPreferencias.PrecioMaxSeleccionado, switchPrecioMax.isChecked());
         mEditor.putInt(TiposPreferencias.PrecioMax, seekPrecioMax.getProgress());
@@ -246,6 +256,7 @@ public class SettingsListActivity extends AppCompatActivity
     }
 
     public static void preferenciasPorDefecto() {
+        Log.i("ed7", "Preferencias defecto");
         if (preferences != null) {
             final SharedPreferences.Editor mEditor = preferences.edit();
             mEditor.putBoolean(TiposPreferencias.PrecioMaxSeleccionado, false);

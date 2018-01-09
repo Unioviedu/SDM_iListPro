@@ -1,5 +1,6 @@
 package com.example.eduardomartinez.sdm_ilistpro.activities;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -88,8 +90,16 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         //NewListActivity
         final GestorNewListaCompra gestor = GestorNewListaCompra.getInstance();
         final Intent intent = new Intent(this, NewListActivity.class);
-        gestor.setLocation(loc.getUbicacionActual());
+
+        Location ubicacion = loc.getUbicacionActual();
+        gestor.setLocation(ubicacion);
+
         Localizacion.getInstance().getSupermercadosCercanos();
+
+        if (ubicacion == null) {
+            crearDialogoOffline();
+            return;
+        }
 
         final ProgressDialog progress=new ProgressDialog(this);
         progress.setMessage("Buscando supermercados cercanos...");
@@ -125,6 +135,26 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         };
 
         t.start();
+    }
+
+    private void crearDialogoOffline() {
+        final Intent intent = new Intent(this, NewListActivity.class);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Sin conexión")
+                .setMessage("Actualmente no tiene conexión a Internet, ¿quiere entrar en el modo offline?.")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                });
+        builder.create().show();
     }
 
     public void deleteListItem(View view) {
@@ -167,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     protected void onRestart() {
         super.onRestart();
         listaListaCompra = db.getAllListaCompra();
+        rellenarLista(listaListaCompra);
     }
 
     @Override

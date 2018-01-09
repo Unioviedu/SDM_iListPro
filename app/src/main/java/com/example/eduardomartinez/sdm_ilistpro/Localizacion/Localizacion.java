@@ -19,6 +19,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -170,11 +171,22 @@ public class Localizacion  {
     public boolean getSupermercadosCercanos() {
         String url = "https://maps.googleapis.com/maps/api/place/textsearch/xml?query=supermarkets&location=";
         ubicacion = GestorNewListaCompra.getInstance().getUbicacion();
-        url += ubicacion.getLatitude()+","+ubicacion.getLongitude()+"&radius=";
-        String radius = "1000";
-        url += radius+"&key="+APIkey;
-        Log.i("miguel", url);
-        new OpenFile().execute(url);
+        if (ubicacion != null) {
+            url += ubicacion.getLatitude() + "," + ubicacion.getLongitude() + "&radius=";
+            String radius = "1000";
+            url += radius + "&key=" + APIkey;
+            Log.i("miguel", url);
+
+            new OpenFile().execute(url);
+
+        } else { //Modo offline
+            List<Supermercado> supermercados = new ArrayList<>();
+            supermercados.add(new Supermercado(null, "Mercadona", null, null));
+            supermercados.add(new Supermercado(null, "El Corte Ingles", null, null));
+            supermercados.add(new Supermercado(null, "Alimerka", null, null));
+            supermercados.add(new Supermercado(null, "Mas y mas", null, null));
+            GestorNewListaCompra.getInstance().setSupermercadosCercanos(supermercados);
+        }
 
         return true;
     }
