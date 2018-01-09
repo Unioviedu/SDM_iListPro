@@ -50,15 +50,20 @@ public class ListProductsFragment extends Fragment implements SearchView.OnQuery
                 if (tipo == entry.getValue().getCategoria() || tipo == TiposProducto.TODO)
                     productos.add(entry.getValue());
         }
+        Log.i("listaproductos", productos.size()+"_1");
 
         Utilidades.orderProductos(productos);
         productos = Utilidades.filterProductoBySupermercado(productos, GestorNewListaCompra.getInstance().getSupermercadosCercanos());
+        Log.i("listaproductos", productos.size()+"_2");
 
         if (filtro) {
             productos = Utilidades.filterProducto(productos, text);
         }
+        Log.i("listaproductos", productos.size()+"_3");
+
         GestorNewListaCompra gestor = GestorNewListaCompra.getInstance();
         productos = Utilidades.filtrarProductosPrecio(productos, gestor.activadoPrecioMin, gestor.precioMin, gestor.activadoPrecioMax, gestor.precioMax);
+        Log.i("listaproductos", productos.size()+"_4");
 
         this.listViewProductsForAdded.setAdapter(new ProductoForAddItemAdapter(getActivity(), productos));
 

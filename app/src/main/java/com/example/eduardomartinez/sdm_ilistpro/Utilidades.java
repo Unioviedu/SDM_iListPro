@@ -117,11 +117,11 @@ public class Utilidades {
         for (Producto producto: productos) {
             if (activadoPrecioMin)
               if (producto.getPrecio() < precioMin)
-                  break;
+                  continue;
 
             if (activadoPrecioMax)
                 if (producto.getPrecio() > precioMax)
-                    break;
+                    continue;
 
             listaTemp.add(producto);
         }
