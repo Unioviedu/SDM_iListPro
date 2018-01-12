@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.eduardomartinez.sdm_ilistpro.R;
@@ -58,11 +59,13 @@ public class ProductoForAddItemAdapter extends BaseAdapter {
         TextView precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioProductoForAddItem);
         TextView nombreSupermercado = (TextView) rowView.findViewById(R.id.textViewSupermercadoProductoForAddItem);
         ImageButton addButton = (ImageButton) rowView.findViewById(R.id.buttonAddProduct);
+        ImageView imagen = (ImageView) rowView.findViewById(R.id.imageViewProductoForAddItem);
 
         Producto item = this.items.get(i);
         nombreLista.setText(item.getNombre());
         precioLista.setText(Utilidades.precio(item.getPrecio()));
         nombreSupermercado.setText(item.getSupermercado());
+        imagen.setImageResource(item.getFoto());
 
         addButton.setTag(item.getId());
 

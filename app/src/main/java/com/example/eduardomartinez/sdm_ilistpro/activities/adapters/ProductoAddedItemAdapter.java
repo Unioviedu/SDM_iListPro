@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.eduardomartinez.sdm_ilistpro.GestorListaCompraActual;
@@ -63,10 +64,12 @@ public class ProductoAddedItemAdapter extends BaseAdapter {
         TextView precioLista = (TextView) rowView.findViewById(R.id.textViewPrecioProductoItem);
         EditText numeroUnidades = (EditText) rowView.findViewById(R.id.editNumeroProductosItemAdded);
         CheckBox check = (CheckBox) rowView.findViewById(R.id.checkBoxProducto);
+        ImageView imagen = (ImageView) rowView.findViewById(R.id.imageViewProductoItem);
 
         Producto item = this.items.get(i);
         nombreLista.setText(item.getNombre());
         precioLista.setText(Utilidades.precio(item.getPrecio()));
+        imagen.setImageResource(item.getFoto());
 
         long idLista = GestorListaCompraActual.getInstance().getListaActual().getId();
         int unidades = DatabaseORM.getInstance().getCantidadProducto(idLista, item.getId());

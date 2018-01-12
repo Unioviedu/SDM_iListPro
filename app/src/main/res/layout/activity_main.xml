@@ -29,9 +29,11 @@
             android:layout_height="81dp"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
+            android:adjustViewBounds="false"
             android:clickable="true"
             android:onClick="moverAddListActivity"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            app:backgroundTint="@color/colorPrimary"
+            app:srcCompat="@drawable/icono_add_blanco" />
     </FrameLayout>
 
 </LinearLayout>

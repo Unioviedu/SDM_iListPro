@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     DatabaseORM db;
 
     private Localizacion loc;
-    private Location ubicacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         Location ubicacion = loc.getUbicacionActual();
         gestor.setLocation(ubicacion);
-
+        Log.i("cr7", ubicacion+"");
         Localizacion.getInstance().getSupermercadosCercanos();
 
         if (ubicacion == null) {

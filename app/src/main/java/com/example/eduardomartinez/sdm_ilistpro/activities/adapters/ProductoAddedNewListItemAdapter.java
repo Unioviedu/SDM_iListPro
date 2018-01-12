@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.eduardomartinez.sdm_ilistpro.GestorNewListaCompra;
@@ -61,11 +62,14 @@ public class ProductoAddedNewListItemAdapter extends BaseAdapter {
         TextView nombreSupermercado = (TextView) rowView.findViewById(R.id.textViewSupermercadoProductoAddedItem);
         EditText numeroProducto = (EditText) rowView.findViewById(R.id.editNumeroProductos);
         ImageButton addButton = (ImageButton) rowView.findViewById(R.id.buttonDeleteProduct);
+        ImageView imagen = (ImageView) rowView.findViewById(R.id.imageViewProductoAddedItem);
+
 
         Producto item = this.items.get(i);
         nombreLista.setText(item.getNombre());
         precioLista.setText(Utilidades.precio(item.getPrecio()));
         nombreSupermercado.setText(item.getSupermercado());
+        imagen.setImageResource(item.getFoto());
 
         int cantidad = GestorNewListaCompra.getInstance().cantidadProducto(item.getId());
         numeroProducto.setText(String.valueOf(cantidad));
