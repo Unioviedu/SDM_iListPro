@@ -39,7 +39,7 @@ public class DatabaseORM {
 
     private DatabaseORM(Application app) {
         this.app = app;
-        helper = new DaoMaster.DevOpenHelper(app, "pruebaA002.db", null);
+        helper = new DaoMaster.DevOpenHelper(app, "pruebaA003.db", null);
         daoMaster = new DaoMaster(helper.getWritableDatabase());
         daoSession = daoMaster.newSession();
         productoDao = daoSession.getProductoDao();

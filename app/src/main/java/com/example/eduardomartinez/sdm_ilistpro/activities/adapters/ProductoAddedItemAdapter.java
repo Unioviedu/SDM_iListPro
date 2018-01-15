@@ -73,6 +73,7 @@ public class ProductoAddedItemAdapter extends BaseAdapter {
 
         long idLista = GestorListaCompraActual.getInstance().getListaActual().getId();
         int unidades = DatabaseORM.getInstance().getCantidadProducto(idLista, item.getId());
+        numeroUnidades.setKeyListener(null);
         numeroUnidades.setText(String.valueOf(unidades));
 
         check.setTag(item.getId());

@@ -72,6 +72,7 @@ public class ProductoAddedNewListItemAdapter extends BaseAdapter {
         imagen.setImageResource(item.getFoto());
 
         int cantidad = GestorNewListaCompra.getInstance().cantidadProducto(item.getId());
+        numeroProducto.setKeyListener(null);
         numeroProducto.setText(String.valueOf(cantidad));
 
         addButton.setTag(item.getId());

@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public class SupermercadoNombres {
-    public static final String MERCADONA = "MERCADONA", ALIMERKA = "ALIMERKA", CORTE = "CORTE", MAS = "masymas";
+    public static final String MERCADONA = "MERCADONA", ALIMERKA = "ALIMERKA", CORTE = "EL CORTE INGLES", MAS = "masymas";
 
     public static boolean estaSupermercado(String sup) {
         List<String> supermercados = new ArrayList<>();
